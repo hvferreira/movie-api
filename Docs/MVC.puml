@@ -1,0 +1,25 @@
+@startuml
+
+skinparam backgroundColor #AAFFFF
+skinparam activity {
+
+  BackgroundColor<< PostManClient/User >> orange
+  BackgroundColor<< Controller >> lime
+  BackgroundColor<< Service >> red
+  BackgroundColor<< Repository >> violet
+  BackgroundColor<< DB >> #burlywood
+
+}
+
+(*) -right-> "PostManClient/User"<< PostManClient/User >>
+-right-> "Controller"<< Controller >>
+
+-right-> "Service"<< Service >>
+-right-> "Repository"<< Repository >>
+-right-> "DB"<< DB >>
+-right-> "Service"
+-right-> "Controller"
+-left-> "PostManClient/User"
+
+
+@enduml

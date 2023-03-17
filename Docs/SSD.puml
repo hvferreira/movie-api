@@ -1,11 +1,148 @@
-@startuml
-'https://plantuml.com/sequence-diagram
-
+@startuml movie
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+
+'define the icon User
+actor User
+
+
+'define colors
+participant API #orange
+group controller
+
+User -[#red]> API: (/) Request
+User <[#blue]- API: (/) Request ("WE NEED TO DECIDE")
+
+User -[#red]> API: ( /health) Request
+User <[#blue]- API: ( /health) Response(Status UP)
+
+User -[#red]> API: ( /allmovies) Request
+User <[#blue]- API: ( /allmovies) Response
+
+User -[#red]> API: ( /movie) Request
+User <[#blue]- API: ( /movie) Response
+
+User -[#red]> API: ( /randomMovie) Request
+User <[#blue]- API: ( /randomMovie) Response
+
+User -[#red]> API: ( /byyear) Request
+User <[#blue]- API: ( byyear) Response
+
+User -[#red]> API: ( bycategory) Request
+User <[#blue]- API: ( bycategory) Response
+
+User -[#red]> API: ( /byrating) Request
+User <[#blue]- API: ( /byrating) Response
+
+User -[#red]> API: ( /byactor) Request
+User <[#blue]- API: ( /byactor) Response
+
+User -[#red]> API: ( /randommoviebycategory) Request
+User <[#blue]- API: ( /randommoviebycategory) Response
+
+User -[#red]> API: ( /randommoviebyyear) Request
+User <[#blue]- API: ( /randommoviebyyear)
+
+User -[#red]> API: ( /randommoviebyyear&category) Request
+User <[#blue]- API: ( /randommoviebyyear&category) Response
+
+User -[#red]> API: ( /randommoviebycategory) Request
+User <[#blue]- API: ( /randommoviebycategory) Response
+
+User -[#red]> API: ( /randommoviebyyear) Request
+User <[#blue]- API: ( /randommoviebyyear) Response
+
+User -[#red]> API: ( /randommoviebyyear&category) Request
+User <[#blue]- API: ( /randommoviebyyear&category) Response
+
+User -[#red]> API: ( /moviebywheather) Request
+User <[#blue]- API: ( /moviebywheather) Response
+
+    end
+
+group service
+participant MoviewAPI #cyan
+
+API -[#red]> MoviewAPI: ( getAllMovies) Request
+API <[#blue]- MoviewAPI: ( getAllMovies) Response (allmovies))
+
+API -[#red]> MoviewAPI:  ( getMovie) Request
+API <[#blue]- MoviewAPI: ( getMovie) Response (movie)
+
+API -[#red]> MoviewAPI: ( getRandomMovie) Request
+API <[#blue]- MoviewAPI: ( getRandomMovie) Response (movie)
+
+API -[#red]> MoviewAPI: ( getByYear) Request
+API <[#blue]- MoviewAPI: ( getByYear) Response (allMoviesThatYear)
+
+API -[#red]> MoviewAPI: ( getByCategory) Request
+API <[#blue]- MoviewAPI: ( getByCategory) Response (allMoviesThatCategory)
+
+API -[#red]> MoviewAPI: ( getByRating) Request
+API <[#blue]- MoviewAPI: ( getByRating) Response (allMovieSortByRating)
+
+API -[#red]> MoviewAPI: ( getByActor) Request
+API <[#blue]- MoviewAPI: ( getByActor) Response (allMoviesWithThatActor)
+
+
+API -[#red]> MoviewAPI: ( getRandomMovieByCategory) Request
+API <[#blue]- MoviewAPI: ( getRandomMovieByCategory) Response (movie)
+
+API -[#red]> MoviewAPI: ( getRandomMovieByYear) Request
+API <[#blue]- MoviewAPI: ( getRandomMovieByYear) Response (movie)
+
+API -[#red]> MoviewAPI: ( getRandomMovieByYear&Category) Request
+API <[#blue]- MoviewAPI: ( getRandomMovieByYear&Category) Response (movie)
+
+API -[#red]> MoviewAPI: ( getRandomMovieByCategory) Request
+API <[#blue]- MoviewAPI: ( getRandomMovieByCategory) Response (movie)
+
+API -[#red]> MoviewAPI: ( getRandomMovieByYear) Request
+API <[#blue]- MoviewAPI: ( getRandomMovieByYear) Response (movie)
+
+API -[#red]> MoviewAPI: ( /getMovieByWHEATHER) Request
+API <[#blue]- MoviewAPI: ( /getMovieByWHEATHER) Response (movie)
+
+    end
+
+
+'group repository
+'end
+
+'group model
+'end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+participant WeatherAPI #PHYSICAL
+'API -[#red]> WeatherAPI: (wheatherbylocation)Request
+'API <-[#blue] WeatherAPI: (wheatherbylocation)response
+
+
+
+
+
+
+'participant FoodDrinkAPI #violet
+'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
+'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
+'API -[#red]> FoodDrinkAPI: (food/drinkByhourOFday) Request
+'API -[#red]> FoodDrinkAPI: (food/byWheather) Request
+
+'User <[#blue]- API: ( /" ") Response(movie & wheather & Drink or food recommendation)
+
 @enduml
