@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class MovieController {
+  - movieService: MovieService
+  + getMovies(): ResponseEntity<List<Movie>>
+  + getMovie(id: int): ResponseEntity<Movie>
+  + createMovie(movie: Movie): ResponseEntity<Movie>
+  + updateMovie(id: int, movie: Movie): ResponseEntity<Movie>
+  + deleteMovie(id: int): ResponseEntity<Void>
+}
+
+class MovieService {
+  - movieRepository: MovieRepository
+  + getAllMovies(): List<Movie>
+  + getMovieById(id: int): Optional<Movie>
+  + saveOrUpdateMovie(movie: Movie): Movie
+  + deleteMovieById(id: int): void
+}
+class MovieRepository {
+  + findAll(): List<Movie>
+  + findById(id: int): Optional<Movie>
+  + save(movie: Movie): Movie
+  + deleteById(id: int): void
+}
+
+class Movie {
+  - id: int
+  - title: String
+  - genre: String
+  - director: String
+  - releaseDate: LocalDate
+  + getId(): int
+  + getTitle(): String
+  + getGenre(): String
+  + getDirector(): String
+  + getReleaseDate(): LocalDate
+  + setId(id: int): void
+  + setTitle(title: String): void
+  + setGenre(genre: String): void
+  + setDirector(director: String): void
+  + setReleaseDate(releaseDate: LocalDate): void
+}
+interface CRUDRepository
+
+MovieController -> MovieService
+MovieService -> MovieRepository
+MovieController -> Movie
+@enduml
