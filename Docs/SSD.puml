@@ -1,11 +1,64 @@
-@startuml
-'https://plantuml.com/sequence-diagram
-
+@startuml movie
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+
+'define the icon User
+actor User
+
+
+'define colors
+participant API #orange
+group controller
+
+User -> API: ( /health) Request
+    end
+
+group service
+
+    end
+
+
+'group repository
+'end
+
+'group model
+'end
+
+User -[#red]> API: (/) Request
+
+User <[#blue]- API: ( /health) Response(Status UP)
+User -[#red]> API: ( /randomMovie) Request
+User -[#red]> API: ( /randomMovieByCategory) Request
+User -[#red]> API: ( /randomMovieByYear) Request
+User -[#red]> API: ( /randomMovieByYear&Category) Request
+User -[#red]> API: ( /getMovie) Request
+User -[#red]-> API: ( /getAllMovies) Request
+User -[#red]> API: ( /getByCategory) Request
+User -[#red]> API: ( /getByYear) Request
+User -[#red]> API: ( /getByRating) Request
+User -[#red]> API: ( /getByActor) Request
+User -[#red]> API: ( /getmovieByWHEATHER) Request
+User -[#red]> API: ( /year//genre//actor//ratings//certification) Request
+User -[#red]> API: ( /userAge//3types of category) Request
+
+participant WeatherAPI #PHYSICAL
+API -[#red]> WeatherAPI: (wheatherbylocation)Request
+API <-[#blue] WeatherAPI: (wheatherbylocation)response
+
+participant MoviewAPI #cyan
+API -[#red]> MoviewAPI: (movie) Request
+API <-[#blue] MoviewAPI: (movie))response
+
+
+
+
+'participant FoodDrinkAPI #violet
+'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
+'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
+'API -[#red]> FoodDrinkAPI: (food/drinkByhourOFday) Request
+'API -[#red]> FoodDrinkAPI: (food/byWheather) Request
+
+'User <[#blue]- API: ( /" ") Response(movie & wheather & Drink or food recommendation)
+
 @enduml
