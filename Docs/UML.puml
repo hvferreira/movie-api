@@ -1,27 +1,55 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
+package controller <<Folder>> #lime{
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
+    class ControllerMovie{
+    -Hi
+    +good
+    }
 
-class ArrayList {
-Object[] elementData
-size()
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+
+package model <<Folder>> #burlywood{
+
+  class Movie{
+    +Hi
+    }
+
 }
 
+package repository <<Folder>> #violet {
+
+  interface MovieRepository {
+  
+  }
+
+}
+
+package service <<Folder>> #red{
+
+  interface MovieService{
+  +Hi
+  }
+  class MovieServiceImpl{
+  +Hi
+  }
+
+}
+Interface CrudRepository<movie,ID>{
+
+}
+
+class ExternalMovieAPI{
+    +Hi
+    }
+
+ControllerMovie <-right-> MovieServiceImpl
+MovieRepository -left-> CrudRepository
+
+MovieServiceImpl -- MovieService
+MovieServiceImpl -up- MovieRepository
+MovieRepository -right- Movie
+MovieServiceImpl -right- ExternalMovieAPI
 @enduml
