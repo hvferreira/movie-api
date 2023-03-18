@@ -1,5 +1,4 @@
 @startuml
-'https://plantuml.com/class-diagram
 
 class MovieController {
   - movieService: MovieService
@@ -43,7 +42,8 @@ class Movie {
 }
 interface CRUDRepository
 
-MovieController -> MovieService
-MovieService -> MovieRepository
-MovieController -> Movie
+MovieController --> MovieService
+MovieService --> MovieRepository
+MovieController --> Movie
+
 @enduml

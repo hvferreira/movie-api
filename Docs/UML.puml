@@ -3,7 +3,7 @@
 
 package controller <<Folder>> #lime{
 
-    class ControllerMovie{
+    class MovieManagerController{
     -Hi
     +good
     }
@@ -21,18 +21,18 @@ package model <<Folder>> #burlywood{
 
 package repository <<Folder>> #violet {
 
-  interface MovieRepository {
-  
+  interface MovieManagerRepository {
+
   }
 
 }
 
 package service <<Folder>> #red{
 
-  interface MovieService{
+  interface MovieManagerService{
   +Hi
   }
-  class MovieServiceImpl{
+  class MovieManagerServiceImpl{
   +Hi
   }
 
@@ -45,11 +45,11 @@ class ExternalMovieAPI{
     +Hi
     }
 
-ControllerMovie <-right-> MovieServiceImpl
-MovieRepository -left-> CrudRepository
+MovieManagerController <-right-> MovieManagerServiceImpl
+MovieManagerRepository -left-> CrudRepository
 
-MovieServiceImpl -- MovieService
-MovieServiceImpl -up- MovieRepository
-MovieRepository -right- Movie
-MovieServiceImpl -right- ExternalMovieAPI
+MovieManagerServiceImpl -- MovieManagerService
+MovieManagerServiceImpl -up- MovieManagerRepository
+MovieManagerRepository -right- Movie
+MovieManagerServiceImpl -right- ExternalMovieAPI
 @enduml
