@@ -29,7 +29,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieById(Long movieId) {
-        log.debug("##### ServiceImpl *** getMovieById *** NameMovie=" + movieId + " ######");
+        log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
+        //String url = "http://api.themoviedb.org/3/movie/785084?api_key=513ec57012d6183655f825870b006514";
+        log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
         return null;
     }
 
