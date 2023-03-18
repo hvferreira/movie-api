@@ -2,19 +2,22 @@ package com.movie.api.service;
 
 import com.movie.api.Model.Movie;
 import com.movie.api.repository.MovieRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+@Slf4j
 @Service
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
     @Autowired
     MovieRepository movieRepository;
 
     @Override
     public List<Movie> getAllMovies() {
-        List<Movie>movies= new ArrayList<>();
+        List<Movie> movies = new ArrayList<>();
         movieRepository.findAll().forEach(movies::add);
         return movies;
     }
@@ -25,7 +28,8 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public Movie getMovieById(Long id) {
+    public Movie getMovieById(Long movieId) {
+        log.debug("##### ServiceImpl *** getMovieById *** NameMovie=" + movieId + " ######");
         return null;
     }
 
