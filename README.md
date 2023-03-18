@@ -1,5 +1,22 @@
-<<<<<<< HEAD
-Edit by Debbie - Test
-=======
+# Movie-API
 
->>>>>>> 0a172416b2f6fae24f3f69d6f739dead87ccd079
+## Key Features of Solution
+
+## Assumptions
+
+## Approaches
+
+## MVC
+
+![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/MVC.png)
+
+## SSD
+
+![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/SSD.png)
+
+## UML
+
+![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/UML.png)
+
+## Future Thoughts
+
