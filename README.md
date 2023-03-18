@@ -8,15 +8,15 @@
 
 ## MVC
 
-![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/MVC.png)
+![This is an image](https://github.com/hvferreira/movie-api/blob/master/Docs/MVC.png)
 
 ## SSD
 
-![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/SSD.png)
+![This is an image](https://github.com/hvferreira/movie-api/blob/master/Docs/SSD.png)
 
 ## UML
 
-![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/UML.png)
+![This is an image](https://github.com/hvferreira/movie-api/blob/master/Docs/UML.png)
 
 ## Future Thoughts
 
