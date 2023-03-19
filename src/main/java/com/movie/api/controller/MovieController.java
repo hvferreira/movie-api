@@ -1,6 +1,6 @@
 package com.movie.api.controller;
 
-import com.movie.api.Model.Movie;
+import com.movie.api.model.Movie;
 import com.movie.api.service.MovieService;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @ToString
@@ -29,9 +27,7 @@ public class MovieController {
 */
     @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
-        log.debug("##### CONTROLLER *** movieByID ######");
-        log.debug("" + movieId);
-        System.out.println("testes");
+        log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
         return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.OK);
 
     }
