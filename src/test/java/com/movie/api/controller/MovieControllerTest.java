@@ -1,7 +1,7 @@
 package com.movie.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movie.api.Model.Movie;
+import com.movie.api.model.Movie;
 import com.movie.api.service.MovieService;
 import com.movie.api.service.MovieServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

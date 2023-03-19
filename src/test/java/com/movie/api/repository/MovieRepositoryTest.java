@@ -1,6 +1,6 @@
 package com.movie.api.repository;
 
-import com.movie.api.Model.Movie;
+import com.movie.api.model.Movie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
