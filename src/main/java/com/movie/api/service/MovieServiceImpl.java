@@ -29,7 +29,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getMovieById(Long movieId) {
         log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
         RestTemplate restTemplate = new RestTemplate();
-        Movie movie = restTemplate.getForObject("http://localhost:8081/api/v1/movie/" + movieId, Movie.class);
+        Movie movie = restTemplate.getForObject("http://api.themoviedb.org/3/movie/"+movieId+"?api_key=513ec57012d6183655f825870b006514", Movie.class);
         log.debug("Movie " + movie.getMovie_id() + "  " + movie.getOriginal_title());
         return movie;
     }

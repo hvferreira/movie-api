@@ -1,6 +1,6 @@
 package com.movie.api.service;
 
-import com.movie.api.Model.Movie;
+import com.movie.api.model.Movie;
 import com.movie.api.repository.MovieRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
