@@ -30,6 +30,7 @@ public class MovieServiceImpl implements MovieService {
         log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
         RestTemplate restTemplate = new RestTemplate();
         Movie movie = restTemplate.getForObject("http://api.themoviedb.org/3/movie/"+movieId+"?api_key=513ec57012d6183655f825870b006514", Movie.class);
+        movie.setMovie_id(movieId);
         log.debug("Movie " + movie.getMovie_id() + "  " + movie.getOriginal_title());
         return movie;
     }
