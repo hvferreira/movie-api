@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.boot.actuate.health.Health;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,7 @@ public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
-    /*@GetMapping({"/allmovies"})
-    public ResponseEntity<List<Movie>> allMovies() {
-        log.debug("##### CONTROLLER *** allMovies ######");
-        List<Movie> movies = movieService.getAllMovies();
-        return new ResponseEntity<>(movies, HttpStatus.OK);
-    }
-*/
+
     @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
@@ -32,6 +27,20 @@ public class MovieController {
 
     }
 
+
+    @GetMapping({"/health"})
+    public ResponseEntity<Health> health() {
+        log.debug("##### CONTROLLER *** health  ######");
+        return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
+    }
+
+     /*@GetMapping({"/allmovies"})
+    public ResponseEntity<List<Movie>> allMovies() {
+        log.debug("##### CONTROLLER *** allMovies ######");
+        List<Movie> movies = movieService.getAllMovies();
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+*/
 
    /* @PostMapping
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {

@@ -13,6 +13,17 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     MovieRepository movieRepository;
 
+
+    @Override
+    public Movie getMovieById(Long movieId) {
+        log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
+        RestTemplate restTemplate = new RestTemplate();
+        Movie movie = restTemplate.getForObject("http://api.themoviedb.org/3/movie/" + movieId + "?api_key=513ec57012d6183655f825870b006514", Movie.class);
+        movie.setMovie_id(movieId);
+        log.debug("Movie " + movie.getMovie_id() + "  " + movie.getOriginal_title());
+        return movie;
+    }
+
     /*@Override
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
@@ -24,16 +35,6 @@ public class MovieServiceImpl implements MovieService {
     //public Movie addMovie(Movie movie) {
     //  return movieRepository.save(movie);
     //}
-
-    @Override
-    public Movie getMovieById(Long movieId) {
-        log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
-        RestTemplate restTemplate = new RestTemplate();
-        Movie movie = restTemplate.getForObject("http://api.themoviedb.org/3/movie/"+movieId+"?api_key=513ec57012d6183655f825870b006514", Movie.class);
-        movie.setMovie_id(movieId);
-        log.debug("Movie " + movie.getMovie_id() + "  " + movie.getOriginal_title());
-        return movie;
-    }
 
     //@Override
     //public Movie updateMovieById(Long id, Movie movie) {
