@@ -1,16 +1,28 @@
 package com.movie.api.model;
 
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
 public class Movie {
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(updatable = false, nullable = false)
+    private Long movie_id;
+    //@Column
+    private String original_title;
+
+
+    //@Column
+    //String director;
+
+    //@Column
+    //LocalDate releaseDate;
 }

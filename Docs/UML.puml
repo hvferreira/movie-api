@@ -3,9 +3,10 @@
 
 package controller <<Folder>> #lime{
 
-    class ControllerMovie{
-    -Hi
-    +good
+    class MovieController{
+    + MovieService movieService
+    + ResponseEntity<Movie> movieByID(@PathVariable Long movieId)
+    + ResponseEntity<Health> health()
     }
 
 }
@@ -14,7 +15,8 @@ package controller <<Folder>> #lime{
 package model <<Folder>> #burlywood{
 
   class Movie{
-    +Hi
+  - Long movie_id;
+  - String original_title;
     }
 
 }
@@ -22,7 +24,7 @@ package model <<Folder>> #burlywood{
 package repository <<Folder>> #violet {
 
   interface MovieRepository {
-  
+
   }
 
 }
@@ -30,10 +32,10 @@ package repository <<Folder>> #violet {
 package service <<Folder>> #red{
 
   interface MovieService{
-  +Hi
+  +Movie getMovieById(Long movieId)
   }
   class MovieServiceImpl{
-  +Hi
+    + Movie getMovieById(Long movieId)
   }
 
 }
@@ -42,10 +44,10 @@ Interface CrudRepository<movie,ID>{
 }
 
 class ExternalMovieAPI{
-    +Hi
+
     }
 
-ControllerMovie <-right-> MovieServiceImpl
+MovieController <-right-> MovieServiceImpl
 MovieRepository -left-> CrudRepository
 
 MovieServiceImpl -- MovieService
