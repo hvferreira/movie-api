@@ -12,8 +12,6 @@ import lombok.*;
 
 public class Person {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(updatable = false, nullable = false)
     private Long id;
     //@Column
     private String name;
