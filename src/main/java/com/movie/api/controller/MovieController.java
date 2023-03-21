@@ -17,20 +17,20 @@ import java.util.List;
 @Slf4j
 @ToString
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
 
-    @GetMapping({"/movie/{movie_id}/recommendations"})
+    @GetMapping({"/movie/{movieId}/recommendations"})
     public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** MovieRecommendations ######");
         return new ResponseEntity<>(movieService.getMovieRecommendations(movieId), HttpStatus.OK);
 
     }
 
-    @GetMapping({"genrelist"})
+    @GetMapping({"/genrelist"})
     public ResponseEntity<List<Genres>> genrelist() {
         log.debug("##### CONTROLLER *** GenreList ######");
         return new ResponseEntity<>(movieService.getGenreList(), HttpStatus.OK);
