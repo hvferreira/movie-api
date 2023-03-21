@@ -1,5 +1,6 @@
 package com.movie.api.controller;
 
+import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.service.MovieService;
 import lombok.ToString;
@@ -20,6 +21,14 @@ import java.util.List;
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
+
+
+    @GetMapping({"genrelist"})
+    public ResponseEntity<List<Genres>> genrelist() {
+        log.debug("##### CONTROLLER *** genrelist ######");
+        return new ResponseEntity<>(movieService.getGenreList(), HttpStatus.OK);
+
+    }
 
 
     @GetMapping({"movie/{movieId}"})

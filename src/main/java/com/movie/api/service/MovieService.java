@@ -1,5 +1,6 @@
 package com.movie.api.service;
 
+import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 
 import java.util.List;
@@ -11,5 +12,9 @@ public interface MovieService {
     Movie getMovieById(Long movieId);
 
     List<Movie> getPopularMovies();
+
+    List<Movie> getAllMovies();
+
+    List<Genres> getGenreList();
     //Movie updateMovieById(Long id,Movie movie);
 }
