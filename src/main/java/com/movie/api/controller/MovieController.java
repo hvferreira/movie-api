@@ -28,7 +28,14 @@ public class MovieController {
     @GetMapping({"/movie/{movieId}/recommendations"})
     public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** MovieRecommendations ######");
-        return new ResponseEntity<>(movieService.getMovieRecommendations(movieId), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, "recommendations"), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/movie/{movieId}/similar"})
+    public ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId) {
+        log.debug("##### CONTROLLER *** movieSimilar ######");
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, "similar"), HttpStatus.OK);
 
     }
 
@@ -78,20 +85,12 @@ public class MovieController {
         return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
     }
 
-     /*@GetMapping({"/allmovies"})
+    @GetMapping({"/movie/allmovies"})
     public ResponseEntity<List<Movie>> allMovies() {
         log.debug("##### CONTROLLER *** allMovies ######");
         List<Movie> movies = movieService.getAllMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
-*/
 
-   /* @PostMapping
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        Movie newMovie = movieService.addMovie(movie);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("book", "/api/v1/book/" + newMovie.getId().toString());
-        System.out.println("Movie added successfully with ID " + newMovie.getId());
-        return new ResponseEntity<>(newMovie, httpHeaders, HttpStatus.CREATED);
-    }*/
+
 }

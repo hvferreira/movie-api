@@ -68,7 +68,7 @@ public class MovieServiceImpl implements MovieService {
 
     public Movie getLatestMovie() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = apiUrl + "movie/latest?api_key="+apiKey;
+        String url = apiUrl + "movie/latest?api_key=" + apiKey;
         return restTemplate.getForObject(url, Movie.class);
     }
 
@@ -76,10 +76,10 @@ public class MovieServiceImpl implements MovieService {
     public Actor getActor(Long actorId) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new MyPersonErrorHandler());
-        String url = apiUrl + "person/" + actorId + "?api_key="+apiKey;
+        String url = apiUrl + "person/" + actorId + "?api_key=" + apiKey;
         Actor response = restTemplate.getForObject(url, Actor.class);
         assert response != null;
-        if(response.getKnown_for_department().equals("Acting")){
+        if (response.getKnown_for_department().equals("Acting")) {
             return response;
         }
         return null;
@@ -102,9 +102,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMovieRecommendations(Long movieId) {
-        String url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
-        log.debug("##### ServiceImpl *** getMovieRecommendations *** URL=" + apiUrl + " ######");
+    public List<Movie> getMovieRecommendationsSimilar(Long movieId, String type) {
+
+        String url = null;
+        switch (type) {
+            case "recommendations" -> url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
+            case "similar" -> url = apiUrl + "/movie/" + movieId + "/similar?api_key=" + apiKey;
+        }
+        log.debug("##### ServiceImpl *** getMovieRecommendationsSimilar *** URL=" + apiUrl + " ######");
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
@@ -114,10 +119,17 @@ public class MovieServiceImpl implements MovieService {
             Movie movie = mapper.convertValue(value, Movie.class);
             movies.add(movie);
         }
+        log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
-
 
     }
 
+    @Override
+    public List<Movie> getAllMovies() {
+        List<Genres> genres = getGenreList();
+
+
+        return null;
+    }
 
 }
