@@ -17,13 +17,17 @@ import java.util.List;
 @Slf4j
 @ToString
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/movie")
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
+    @GetMapping({"/"})
+    public ResponseEntity<Movie> defaultMapping() {
+       return latestMovie();
+    }
 
-    @GetMapping({"movie/{movieId}"})
+    @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
         return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.OK);
