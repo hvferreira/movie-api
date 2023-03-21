@@ -15,8 +15,10 @@ package controller <<Folder>> #lime{
 package model <<Folder>> #burlywood{
 
   class Movie{
-  - Long movie_id;
+  - Long id;
   - String original_title;
+  - String release_date;
+  - String overview;
     }
 
 }
@@ -46,6 +48,23 @@ Interface CrudRepository<movie,ID>{
 class ExternalMovieAPI{
 
     }
+
+package exception <<Folder>> #brown{
+    class ErrorResponse{
+        - LocalDateTime timestamp;
+        - String message;
+    }
+    class MovieNotFoundException extends RunTimeException{
+
+    }
+    class MyMovieErrorHandler extends DefaultResponseErrorHandler{
+     + handleError(ClientHttpResponse response)
+    }
+
+    class ApplicationExceptionHandler{
+        + ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e)
+    }
+}
 
 MovieController <-right-> MovieServiceImpl
 MovieRepository -left-> CrudRepository

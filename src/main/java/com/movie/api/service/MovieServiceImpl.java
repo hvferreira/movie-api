@@ -3,6 +3,10 @@ package com.movie.api.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.exception.MyMovieErrorHandler;
+
+import com.movie.api.exception.MyPersonErrorHandler;
+import com.movie.api.exception.PersonNotFoundException;
+import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.repository.MovieRepository;
@@ -61,21 +65,59 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+
+    public Movie getLatestMovie() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = apiUrl + "movie/latest?api_key="+apiKey;
+        return restTemplate.getForObject(url, Movie.class);
+    }
+
+    @Override
+    public Actor getActor(Long actorId) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new MyPersonErrorHandler());
+        String url = apiUrl + "person/" + actorId + "?api_key="+apiKey;
+        Actor response = restTemplate.getForObject(url, Actor.class);
+        assert response != null;
+        if(response.getKnown_for_department().equals("Acting")){
+            return response;
+        }
+        return null;
+    }
+
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
         String url = apiUrl + "/genre/movie/list?api_key=" + apiKey;
         log.debug("##### ServiceImpl *** getGenreList *** URL=" + apiUrl + " ######");
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("genres");
-        //Object genre = restTemplate.getForObject(url, Object.class);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         for (Object value : values) {
             Genres genre = mapper.convertValue(value, Genres.class);
             genres.add(genre);
         }
-        log.debug("##### ServiceImpl *** getGenreList *** genre=" + genres.get(1).getId() + " ###### " + genres.get(1).getName());
-        return null;
+        log.debug("##### ServiceImpl *** getGenreList *** genre=" + genres.get(0).getId() + " ###### " + genres.get(0).getName());
+        return genres;
     }
+
+    @Override
+    public List<Movie> getMovieRecommendations(Long movieId) {
+        String url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
+        log.debug("##### ServiceImpl *** getMovieRecommendations *** URL=" + apiUrl + " ######");
+        List<Movie> movies = new ArrayList<Movie>();
+        RestTemplate restTemplate = new RestTemplate();
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        for (Object value : values) {
+            Movie movie = mapper.convertValue(value, Movie.class);
+            movies.add(movie);
+        }
+        return movies;
+
+
+    }
+
 
 }
