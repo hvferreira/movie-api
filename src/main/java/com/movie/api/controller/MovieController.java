@@ -37,7 +37,7 @@ public class MovieController {
 
     }
 
-    @GetMapping({"/movie/{movieId}/similar"})
+    @GetMapping({"/{movieId}/similar"})
     public ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieSimilar ######");
         return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, "similar"), HttpStatus.OK);
