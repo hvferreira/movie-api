@@ -19,8 +19,5 @@ public interface MovieService {
     List<Genres> getGenreList();
 
 
-    List<Movie> getAllMovies();
-
-
     List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations);
 }

@@ -123,13 +123,6 @@ public class MovieServiceImpl implements MovieService {
         return movies;
 
     }
-
-    @Override
-    public List<Movie> getAllMovies() {
-        List<Genres> genres = getGenreList();
-
-
-        return null;
-    }
+    
 
 }

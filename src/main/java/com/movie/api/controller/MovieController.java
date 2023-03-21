@@ -85,12 +85,4 @@ public class MovieController {
         return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
     }
 
-    @GetMapping({"/movie/allmovies"})
-    public ResponseEntity<List<Movie>> allMovies() {
-        log.debug("##### CONTROLLER *** allMovies ######");
-        List<Movie> movies = movieService.getAllMovies();
-        return new ResponseEntity<>(movies, HttpStatus.OK);
-    }
-
-
 }
