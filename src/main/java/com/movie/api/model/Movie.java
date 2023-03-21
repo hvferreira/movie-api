@@ -22,7 +22,7 @@ public class Movie {
 
     private String overview;
 
-    //private Genre genre;
+    //private Genres genre;
 
 
     //@Column
