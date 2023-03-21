@@ -3,7 +3,6 @@ package com.movie.api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -15,9 +14,15 @@ public class Movie {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(updatable = false, nullable = false)
-    private Long movie_id;
+    private Long id;
     //@Column
     private String original_title;
+
+    private String release_date;
+
+    private String overview;
+
+    //private Genres genre;
 
 
     //@Column
