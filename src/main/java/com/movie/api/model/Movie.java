@@ -3,7 +3,6 @@ package com.movie.api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -22,6 +21,8 @@ public class Movie {
     private String release_date;
 
     private String overview;
+
+    //private Genres genre;
 
 
     //@Column
