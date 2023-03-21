@@ -67,15 +67,14 @@ public class MovieServiceImpl implements MovieService {
         String url = apiUrl + "/genre/movie/list?api_key=" + apiKey;
         log.debug("##### ServiceImpl *** getGenreList *** URL=" + apiUrl + " ######");
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("genres");
-        //Object genre = restTemplate.getForObject(url, Object.class);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         for (Object value : values) {
             Genres genre = mapper.convertValue(value, Genres.class);
             genres.add(genre);
         }
-        log.debug("##### ServiceImpl *** getGenreList *** genre=" + genres.get(1).getId() + " ###### " + genres.get(1).getName());
-        return null;
+        log.debug("##### ServiceImpl *** getGenreList *** genre=" + genres.get(0).getId() + " ###### " + genres.get(0).getName());
+        return genres;
     }
 
 }
