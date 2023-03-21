@@ -77,4 +77,22 @@ public class MovieServiceImpl implements MovieService {
         return genres;
     }
 
+    @Override
+    public List<Movie> getMovieRecommendations(Long movieId) {
+        String url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
+        log.debug("##### ServiceImpl *** getMovieRecommendations *** URL=" + apiUrl + " ######");
+        List<Movie> movies = new ArrayList<Movie>();
+        RestTemplate restTemplate = new RestTemplate();
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        for (Object value : values) {
+            Movie movie = mapper.convertValue(value, Movie.class);
+            movies.add(movie);
+        }
+        return movies;
+
+
+    }
+
 }

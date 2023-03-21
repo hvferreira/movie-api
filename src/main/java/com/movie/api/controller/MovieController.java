@@ -23,9 +23,16 @@ public class MovieController {
     MovieService movieService;
 
 
+    @GetMapping({"/movie/{movie_id}/recommendations"})
+    public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
+        log.debug("##### CONTROLLER *** MovieRecommendations ######");
+        return new ResponseEntity<>(movieService.getMovieRecommendations(movieId), HttpStatus.OK);
+
+    }
+
     @GetMapping({"genrelist"})
     public ResponseEntity<List<Genres>> genrelist() {
-        log.debug("##### CONTROLLER *** genrelist ######");
+        log.debug("##### CONTROLLER *** GenreList ######");
         return new ResponseEntity<>(movieService.getGenreList(), HttpStatus.OK);
 
     }
