@@ -3,10 +3,6 @@ package com.movie.api.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.exception.MyMovieErrorHandler;
-
-import com.movie.api.exception.MyPersonErrorHandler;
-import com.movie.api.exception.PersonNotFoundException;
-import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.repository.MovieRepository;
@@ -52,16 +48,7 @@ public class MovieServiceImpl implements MovieService {
             case "popular" -> url = apiUrl + "movie/popular?api_key=" + apiKey;
             case "top_rated" -> url = apiUrl + "movie/top_rated?api_key=" + apiKey;
         }
-        List<Movie> movies = new ArrayList<Movie>();
-        RestTemplate restTemplate = new RestTemplate();
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        for (Object value : values) {
-            Movie movie = mapper.convertValue(value, Movie.class);
-            movies.add(movie);
-        }
-        return movies;
+        return returnMovieListFromUrl(url);
     }
 
     @Override
@@ -91,13 +78,19 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getMovieRecommendationsSimilar(Long movieId, String type) {
-
         String url = null;
         switch (type) {
             case "recommendations" -> url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
             case "similar" -> url = apiUrl + "/movie/" + movieId + "/similar?api_key=" + apiKey;
         }
         log.debug("##### ServiceImpl *** getMovieRecommendationsSimilar *** URL=" + apiUrl + " ######");
+        List<Movie> movies = returnMovieListFromUrl(url);
+        log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
+        return movies;
+
+    }
+
+    private List<Movie> returnMovieListFromUrl(String url){
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
@@ -107,9 +100,7 @@ public class MovieServiceImpl implements MovieService {
             Movie movie = mapper.convertValue(value, Movie.class);
             movies.add(movie);
         }
-        log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
-
     }
     
 
