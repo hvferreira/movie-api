@@ -1,5 +1,6 @@
 package com.movie.api.controller;
 
+import com.movie.api.model.Actor;
 import com.movie.api.model.Movie;
 import com.movie.api.service.MovieService;
 import lombok.ToString;
@@ -38,6 +39,18 @@ public class MovieController {
     @GetMapping({"/topRatedMovies"})
     public ResponseEntity<List<Movie>> topRatedMovies() {
         return new ResponseEntity<>(movieService.getMovies("top_rated"), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/latestMovies"})
+    public ResponseEntity<Movie> latestMovie() {
+        return new ResponseEntity<>(movieService.getLatestMovie(), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/actor/{actorId}"})
+    public ResponseEntity<Actor> actorById(@PathVariable Long actorId) {
+        return new ResponseEntity<>(movieService.getActor(actorId), HttpStatus.OK);
 
     }
 

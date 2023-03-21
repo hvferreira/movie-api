@@ -3,6 +3,9 @@ package com.movie.api.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.exception.MyMovieErrorHandler;
+import com.movie.api.exception.MyPersonErrorHandler;
+import com.movie.api.exception.PersonNotFoundException;
+import com.movie.api.model.Actor;
 import com.movie.api.model.Movie;
 import com.movie.api.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -58,5 +61,26 @@ public class MovieServiceImpl implements MovieService {
         }
         return movies;
     }
+
+    @Override
+    public Movie getLatestMovie() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = apiUrl + "movie/latest?api_key="+apiKey;
+        return restTemplate.getForObject(url, Movie.class);
+    }
+
+    @Override
+    public Actor getActor(Long actorId) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new MyPersonErrorHandler());
+        String url = apiUrl + "person/" + actorId + "?api_key="+apiKey;
+        Actor response = restTemplate.getForObject(url, Actor.class);
+        assert response != null;
+        if(response.getKnown_for_department().equals("Acting")){
+            return response;
+        }
+        return null;
+    }
+
 
 }
