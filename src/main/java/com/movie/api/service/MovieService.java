@@ -14,8 +14,6 @@ public interface MovieService {
 
     Movie getLatestMovie();
 
-    Actor getActor(Long actorId);
-
     List<Genres> getGenreList();
 
 

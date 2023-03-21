@@ -77,13 +77,6 @@ public class MovieController {
 
     }
 
-    @GetMapping({"/actor/{actorId}"})
-    public ResponseEntity<Actor> actorById(@PathVariable Long actorId) {
-        return new ResponseEntity<>(movieService.getActor(actorId), HttpStatus.OK);
-
-    }
-
-
     @GetMapping({"/health"})
     public ResponseEntity<Health> health() {
         log.debug("##### CONTROLLER *** health  ######");

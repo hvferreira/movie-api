@@ -72,18 +72,6 @@ public class MovieServiceImpl implements MovieService {
         return restTemplate.getForObject(url, Movie.class);
     }
 
-    @Override
-    public Actor getActor(Long actorId) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new MyPersonErrorHandler());
-        String url = apiUrl + "person/" + actorId + "?api_key=" + apiKey;
-        Actor response = restTemplate.getForObject(url, Actor.class);
-        assert response != null;
-        if (response.getKnown_for_department().equals("Acting")) {
-            return response;
-        }
-        return null;
-    }
 
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
