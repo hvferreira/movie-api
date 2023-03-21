@@ -7,4 +7,6 @@ public interface ActorService {
     Actor getActor(Long actorId);
 
     List<Actor> getActorsByMovieId(Long movieId);
+
+    List<Actor> getPopularActors();
 }

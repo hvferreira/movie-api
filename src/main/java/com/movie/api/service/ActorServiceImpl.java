@@ -6,6 +6,7 @@ import com.movie.api.exception.ActorNotFoundException;
 import com.movie.api.exception.MyMovieErrorHandler;
 import com.movie.api.exception.MyPersonErrorHandler;
 import com.movie.api.model.Actor;
+import com.movie.api.model.Movie;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -41,13 +42,28 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public List<Actor> getActorsByMovieId(Long movieId) {
+        String url = apiUrl + "movie/" + movieId + "/credits?api_key=" + apiKey;
+        return returnActorListFromUrl(url, "from_movie");
+    }
+
+    @Override
+    public List<Actor> getPopularActors() {
+        String url = apiUrl + "person/popular?api_key=" + apiKey;
+        return returnActorListFromUrl(url, "popular");
+    }
+
+    private List<Actor> returnActorListFromUrl(String url, String type){
         List<Actor> actors = new ArrayList<Actor>();
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new MyMovieErrorHandler());
-        String url = apiUrl + "movie/" + movieId + "/credits?api_key=" + apiKey;
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("cast");
+        List values = null;
+        switch(type){
+            case "from_movie" -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("cast");
+            case "popular" -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
+        }
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        assert values != null;
         for(Object value : values){
             Actor actor = mapper.convertValue(value, Actor.class);
             if(actor.getKnown_for_department().equals("Acting")){
