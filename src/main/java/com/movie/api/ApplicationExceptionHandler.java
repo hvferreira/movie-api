@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-
     @ExceptionHandler(MovieNotFoundException.class)
-    public ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e){
+    public ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e){
+    public ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
