@@ -10,6 +10,6 @@ public interface MovieService {
     //Movie addMovie(Movie movie);
     Movie getMovieById(Long movieId);
 
-    List<Movie> getPopularMovies();
+    List<Movie> getMovies(String type);
     //Movie updateMovieById(Long id,Movie movie);
 }
