@@ -11,5 +11,9 @@ public interface MovieService {
     Movie getMovieById(Long movieId);
 
     List<Movie> getMovies(String type);
+
+    Object getGenreList();
     //Movie updateMovieById(Long id,Movie movie);
+
+
 }
