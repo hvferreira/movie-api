@@ -41,16 +41,20 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getPopularMovies() {
+    public List<Movie> getMovies(String type){
+        String url = null;
+        switch(type){
+            case"popular" -> url = apiUrl + "movie/popular?api_key="+apiKey;
+            case"top_rated"-> url = apiUrl + "movie/top_rated?api_key="+apiKey;
+        }
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
-        String url = apiUrl + "movie/popular?api_key="+apiKey;
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        for(int i=0; i<values.size(); i++){
-           Movie movie = mapper.convertValue(values.get(i), Movie.class);
-           movies.add(movie);
+        for (Object value : values) {
+            Movie movie = mapper.convertValue(value, Movie.class);
+            movies.add(movie);
         }
         return movies;
     }

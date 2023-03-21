@@ -29,9 +29,15 @@ public class MovieController {
 
     }
 
-    @GetMapping({"/{popularMovies}"})
+    @GetMapping({"/popularMovies"})
     public ResponseEntity<List<Movie>> popularMovies() {
-        return new ResponseEntity<>(movieService.getPopularMovies(), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovies("popular"), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/topRatedMovies"})
+    public ResponseEntity<List<Movie>> topRatedMovies() {
+        return new ResponseEntity<>(movieService.getMovies("top_rated"), HttpStatus.OK);
 
     }
 
