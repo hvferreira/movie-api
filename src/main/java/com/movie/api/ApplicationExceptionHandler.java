@@ -1,5 +1,6 @@
 package com.movie.api;
 
+import com.movie.api.exception.ActorNotFoundException;
 import com.movie.api.exception.ErrorResponse;
 import com.movie.api.exception.MovieNotFoundException;
 import com.movie.api.exception.PersonNotFoundException;
@@ -18,6 +19,12 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(PersonNotFoundException.class)
     public ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ActorNotFoundException.class)
+    public ResponseEntity<Object> handleActorNotFoundException(ActorNotFoundException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
