@@ -56,7 +56,21 @@
 			<version>5.9.2</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
 	</dependencies>
+
+
 
 	<build>
 		<plugins>
