@@ -11,19 +11,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @ToString
 @RestController
-@RequestMapping("/api/v1/movie")
+@RequestMapping("/api/v1/")
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
 
-    @GetMapping({"/{movieId}"})
+    @GetMapping({"movie/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
         return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/{popularMovies}"})
+    public ResponseEntity<List<Movie>> popularMovies() {
+        return new ResponseEntity<>(movieService.getPopularMovies(), HttpStatus.OK);
 
     }
 
