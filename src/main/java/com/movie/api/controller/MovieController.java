@@ -1,9 +1,8 @@
 package com.movie.api.controller;
-
-
 import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
+import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,9 @@ import java.util.List;
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
+
+    @Autowired
+    ActorService actorService;
 
     @GetMapping({"/"})
     public ResponseEntity<Movie> defaultMapping() {
@@ -75,6 +77,11 @@ public class MovieController {
     public ResponseEntity<Movie> latestMovie() {
         return new ResponseEntity<>(movieService.getLatestMovie(), HttpStatus.OK);
 
+    }
+
+    @GetMapping({"{movieId}/actors"})
+    public ResponseEntity<List<Actor>> actorsByMovieId(@PathVariable Long movieId) {
+        return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
     }
 
     @GetMapping({"/health"})

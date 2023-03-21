@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @ToString
 @RestController
@@ -30,6 +32,6 @@ public class ActorController {
     @GetMapping({"/{actorId}"})
     public ResponseEntity<Actor> actorById(@PathVariable Long actorId) {
         return new ResponseEntity<>(actorService.getActor(actorId), HttpStatus.OK);
-
     }
+
 }
