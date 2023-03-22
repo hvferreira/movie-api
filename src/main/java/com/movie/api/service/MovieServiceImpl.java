@@ -90,6 +90,22 @@ public class MovieServiceImpl implements MovieService {
 
     }
 
+    @Override
+    public List<Movie> getMoviesByActor(Long actorId) {
+        List<Movie> movies = new ArrayList<Movie>();
+        String url = apiUrl + "/person/" + actorId + "/movie_credits?api_key=" + apiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        LinkedHashMap response = restTemplate.getForObject(url, LinkedHashMap.class);
+        List values = (List) response.get("cast");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        for (Object value : values) {
+            Movie movie = mapper.convertValue(value, Movie.class);
+            movies.add(movie);
+        }
+        return movies;
+    }
+
     private List<Movie> returnMovieListFromUrl(String url){
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
