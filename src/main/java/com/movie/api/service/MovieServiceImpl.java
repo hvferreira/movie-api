@@ -67,6 +67,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public String getDirectorByMovie(Long movieId) {
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new MyMovieErrorHandler());
         String url = apiUrl + Constants.ENDPOINT_MOVIE+ "/"+movieId+"/"+Constants.ENDPOINT_CREDITS+"?api_key=" + apiKey;
         List response = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CREW);
         assert response != null;
