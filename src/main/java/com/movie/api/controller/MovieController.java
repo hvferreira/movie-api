@@ -1,4 +1,5 @@
 package com.movie.api.controller;
+import com.movie.api.Constants;
 import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
@@ -35,14 +36,14 @@ public class MovieController {
     @GetMapping({"/{movieId}/recommendations"})
     public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** MovieRecommendations ######");
-        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, "recommendations"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS), HttpStatus.OK);
 
     }
 
     @GetMapping({"/{movieId}/similar"})
     public ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieSimilar ######");
-        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, "similar"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR), HttpStatus.OK);
 
     }
 
@@ -75,17 +76,17 @@ public class MovieController {
 
     @GetMapping({"/popularMovies"})
     public ResponseEntity<List<Movie>> popularMovies() {
-        return new ResponseEntity<>(movieService.getMovies("popular"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovies(Constants.ENDPOINT_POPULAR), HttpStatus.OK);
 
     }
 
     @GetMapping({"/topRatedMovies"})
     public ResponseEntity<List<Movie>> topRatedMovies() {
-        return new ResponseEntity<>(movieService.getMovies("top_rated"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovies(Constants.ENDPOINT_TOP_RATED), HttpStatus.OK);
 
     }
 
-    @GetMapping({"/latestMovies"})
+    @GetMapping({"/latestMovie"})
     public ResponseEntity<Movie> latestMovie() {
         return new ResponseEntity<>(movieService.getLatestMovie(), HttpStatus.OK);
 

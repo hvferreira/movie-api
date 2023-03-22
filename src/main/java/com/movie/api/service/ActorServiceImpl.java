@@ -2,6 +2,7 @@ package com.movie.api.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movie.api.Constants;
 import com.movie.api.exception.ActorNotFoundException;
 import com.movie.api.exception.MyMovieErrorHandler;
 import com.movie.api.exception.MyPersonErrorHandler;
@@ -30,10 +31,10 @@ public class ActorServiceImpl implements ActorService {
     public Actor getActor(Long actorId) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new MyPersonErrorHandler());
-        String url = apiUrl + "person/" + actorId + "?api_key=" + apiKey;
+        String url = apiUrl + Constants.ENDPOINT_PERSON + "/" + actorId + "?api_key=" + apiKey;
         Actor response = restTemplate.getForObject(url, Actor.class);
         assert response != null;
-        if (response.getKnown_for_department().equals("Acting")) {
+        if (response.getKnown_for_department().equals(Constants.KNOWN_FOR_ACTING)) {
             return response;
         }else{
             throw new ActorNotFoundException();
@@ -42,14 +43,14 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public List<Actor> getActorsByMovieId(Long movieId) {
-        String url = apiUrl + "movie/" + movieId + "/credits?api_key=" + apiKey;
-        return returnActorListFromUrl(url, "from_movie");
+        String url = apiUrl + Constants.ENDPOINT_MOVIE + "/" + movieId + "/"+Constants.ENDPOINT_CREDITS+"?api_key=" + apiKey;
+        return returnActorListFromUrl(url, Constants.ENDPOINT_MOVIE);
     }
 
     @Override
     public List<Actor> getPopularActors() {
-        String url = apiUrl + "person/popular?api_key=" + apiKey;
-        return returnActorListFromUrl(url, "popular");
+        String url = apiUrl + Constants.ENDPOINT_PERSON + "/"+ Constants.ENDPOINT_POPULAR+"?api_key=" + apiKey;
+        return returnActorListFromUrl(url, Constants.ENDPOINT_POPULAR);
     }
 
     private List<Actor> returnActorListFromUrl(String url, String type){
@@ -58,15 +59,15 @@ public class ActorServiceImpl implements ActorService {
         restTemplate.setErrorHandler(new MyMovieErrorHandler());
         List values = null;
         switch(type){
-            case "from_movie" -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("cast");
-            case "popular" -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
+            case Constants.ENDPOINT_MOVIE -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CAST);
+            case  Constants.ENDPOINT_POPULAR -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
         }
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         assert values != null;
         for(Object value : values){
             Actor actor = mapper.convertValue(value, Actor.class);
-            if(actor.getKnown_for_department().equals("Acting")){
+            if(actor.getKnown_for_department().equals(Constants.KNOWN_FOR_ACTING)){
                 actors.add(actor);
             }
         }

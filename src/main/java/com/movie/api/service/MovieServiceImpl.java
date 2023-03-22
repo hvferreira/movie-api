@@ -2,12 +2,14 @@ package com.movie.api.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movie.api.Constants;
 import com.movie.api.exception.MyMovieErrorHandler;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.model.Person;
 import com.movie.api.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -36,7 +38,7 @@ public class MovieServiceImpl implements MovieService {
         log.debug("##### ServiceImpl *** getMovieById *** MovieID=" + movieId + " ######");
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new MyMovieErrorHandler());
-        String url = apiUrl + "movie/" + movieId + "?api_key=" + apiKey;
+        String url = apiUrl + Constants.ENDPOINT_MOVIE +  "/" + movieId + "?api_key=" + apiKey;
         Movie movie = restTemplate.getForObject(url, Movie.class);
         log.debug("Movie " + movie.getId() + "  " + movie.getOriginal_title());
         return movie;
@@ -46,8 +48,8 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getMovies(String type) {
         String url = null;
         switch (type) {
-            case "popular" -> url = apiUrl + "movie/popular?api_key=" + apiKey;
-            case "top_rated" -> url = apiUrl + "movie/top_rated?api_key=" + apiKey;
+            case Constants.ENDPOINT_POPULAR -> url = apiUrl + Constants.ENDPOINT_MOVIE + "/"+Constants.ENDPOINT_POPULAR+"?api_key=" + apiKey;
+            case Constants.ENDPOINT_TOP_RATED -> url = apiUrl + Constants.ENDPOINT_MOVIE +"/"+Constants.ENDPOINT_TOP_RATED+"?api_key=" + apiKey;
         }
         return returnMovieListFromUrl(url);
     }
@@ -55,17 +57,17 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getLatestMovie() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = apiUrl + "movie/latest?api_key=" + apiKey;
+        String url = apiUrl + Constants.ENDPOINT_MOVIE +"/"+Constants.ENDPOINT_LATEST+"?api_key=" + apiKey;
         return restTemplate.getForObject(url, Movie.class);
     }
 
     @Override
     public List<Movie> getMoviesByActor(Long actorId) {
         List<Movie> movies = new ArrayList<Movie>();
-        String url = apiUrl + "/person/" + actorId + "/movie_credits?api_key=" + apiKey;
+        String url = apiUrl + "/"+Constants.ENDPOINT_PERSON+"/" + actorId + "/"+Constants.ENDPOINT_CREDITS_PERSON+"?api_key=" + apiKey;
         RestTemplate restTemplate = new RestTemplate();
         LinkedHashMap response = restTemplate.getForObject(url, LinkedHashMap.class);
-        List values = (List) response.get("cast");
+        List values = (List) response.get(Constants.QUERY_CAST);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         for (Object value : values) {
@@ -78,14 +80,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public String getDirectorByMovie(Long movieId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = apiUrl + "movie/"+movieId+"/credits?api_key=" + apiKey;
-        List response = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("crew");
+        String url = apiUrl + Constants.ENDPOINT_MOVIE+ "/"+movieId+"/"+Constants.ENDPOINT_CREDITS+"?api_key=" + apiKey;
+        List response = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CREW);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         assert response != null;
         for(Object value : response){
             Person person = mapper.convertValue(value, Person.class);
-            if(person.getJob()!=null && person.getJob().equals("Director")){
+            if(person.getJob()!=null && person.getJob().equals(Constants.JOB_DIRECTING)){
                 return person.getName();
             }
         }
@@ -96,9 +98,9 @@ public class MovieServiceImpl implements MovieService {
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
-        String url = apiUrl + "/genre/movie/list?api_key=" + apiKey;
+        String url = apiUrl + "/"+Constants.ENDPOINT_GENRE+"/" + Constants.ENDPOINT_MOVIE+"/list?api_key=" + apiKey;
         log.debug("##### ServiceImpl *** getGenreList *** URL=" + apiUrl + " ######");
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("genres");
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_GENRE);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         for (Object value : values) {
@@ -113,8 +115,8 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getMovieRecommendationsSimilar(Long movieId, String type) {
         String url = null;
         switch (type) {
-            case "recommendations" -> url = apiUrl + "/movie/" + movieId + "/recommendations?api_key=" + apiKey;
-            case "similar" -> url = apiUrl + "/movie/" + movieId + "/similar?api_key=" + apiKey;
+            case Constants.ENDPOINT_RECOMMENDATIONS -> url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + movieId + "/"+Constants.ENDPOINT_RECOMMENDATIONS+"?api_key=" + apiKey;
+            case Constants.ENDPOINT_SIMILAR -> url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + movieId + "/"+Constants.ENDPOINT_SIMILAR +"?api_key=" + apiKey;
         }
         log.debug("##### ServiceImpl *** getMovieRecommendationsSimilar *** URL=" + apiUrl + " ######");
         List<Movie> movies = returnMovieListFromUrl(url);
@@ -128,7 +130,7 @@ public class MovieServiceImpl implements MovieService {
     private List<Movie> returnMovieListFromUrl(String url) {
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         for (Object value : values) {
