@@ -27,6 +27,8 @@ public class ActorServiceImpl implements ActorService {
     private String apiKey;
     @Value("${apiUrl}")
     private String apiUrl;
+
+    private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     @Override
     public Actor getActor(Long actorId) {
         RestTemplate restTemplate = new RestTemplate();
@@ -62,8 +64,6 @@ public class ActorServiceImpl implements ActorService {
             case Constants.ENDPOINT_MOVIE -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CAST);
             case  Constants.ENDPOINT_POPULAR -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
         }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         assert values != null;
         for(Object value : values){
             Actor actor = mapper.convertValue(value, Actor.class);
