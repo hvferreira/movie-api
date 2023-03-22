@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.exception.MyMovieErrorHandler;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
+import com.movie.api.model.Person;
 import com.movie.api.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,39 @@ public class MovieServiceImpl implements MovieService {
         return restTemplate.getForObject(url, Movie.class);
     }
 
+    @Override
+    public List<Movie> getMoviesByActor(Long actorId) {
+        List<Movie> movies = new ArrayList<Movie>();
+        String url = apiUrl + "/person/" + actorId + "/movie_credits?api_key=" + apiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        LinkedHashMap response = restTemplate.getForObject(url, LinkedHashMap.class);
+        List values = (List) response.get("cast");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        for (Object value : values) {
+            Movie movie = mapper.convertValue(value, Movie.class);
+            movies.add(movie);
+        }
+        return movies;
+    }
+
+    @Override
+    public String getDirectorByMovie(Long movieId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = apiUrl + "movie/"+movieId+"/credits?api_key=" + apiKey;
+        List response = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("crew");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        assert response != null;
+        for(Object value : response){
+            Person person = mapper.convertValue(value, Person.class);
+            if(person.getJob()!=null && person.getJob().equals("Director")){
+                return person.getName();
+            }
+        }
+        return null;
+    }
+
 
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
@@ -90,21 +124,7 @@ public class MovieServiceImpl implements MovieService {
 
     }
 
-    @Override
-    public List<Movie> getMoviesByActor(Long actorId) {
-        List<Movie> movies = new ArrayList<Movie>();
-        String url = apiUrl + "/person/" + actorId + "/movie_credits?api_key=" + apiKey;
-        RestTemplate restTemplate = new RestTemplate();
-        LinkedHashMap response = restTemplate.getForObject(url, LinkedHashMap.class);
-        List values = (List) response.get("cast");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        for (Object value : values) {
-            Movie movie = mapper.convertValue(value, Movie.class);
-            movies.add(movie);
-        }
-        return movies;
-    }
+
 
     private List<Movie> returnMovieListFromUrl(String url){
         List<Movie> movies = new ArrayList<Movie>();
