@@ -52,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
             case Constants.ENDPOINT_POPULAR -> url = apiUrl + Constants.ENDPOINT_MOVIE + "/"+Constants.ENDPOINT_POPULAR+"?api_key=" + apiKey;
             case Constants.ENDPOINT_TOP_RATED -> url = apiUrl + Constants.ENDPOINT_MOVIE +"/"+Constants.ENDPOINT_TOP_RATED+"?api_key=" + apiKey;
         }
-        return returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url);
     }
 
     @Override
@@ -61,8 +61,6 @@ public class MovieServiceImpl implements MovieService {
         String url = apiUrl + Constants.ENDPOINT_MOVIE +"/"+Constants.ENDPOINT_LATEST+"?api_key=" + apiKey;
         return restTemplate.getForObject(url, Movie.class);
     }
-
-
 
     @Override
     public String getDirectorByMovie(Long movieId) {
@@ -103,7 +101,7 @@ public class MovieServiceImpl implements MovieService {
             case Constants.ENDPOINT_SIMILAR -> url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + movieId + "/"+Constants.ENDPOINT_SIMILAR +"?api_key=" + apiKey;
         }
         log.debug("##### ServiceImpl *** getMovieRecommendationsSimilar *** URL=" + apiUrl + " ######");
-        List<Movie> movies = returnMovieListFromUrl(url);
+        List<Movie> movies = ResponseHelper.returnMovieListFromUrl(url);
         log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
 
@@ -112,19 +110,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getMoviesByActor(Long actorId) {
         String url = apiUrl + "/"+Constants.ENDPOINT_PERSON+"/" + actorId + "/"+Constants.ENDPOINT_CREDITS_PERSON+"?api_key=" + apiKey;
-        return returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url);
     }
-
-    private List<Movie> returnMovieListFromUrl(String url) {
-        List<Movie> movies = new ArrayList<Movie>();
-        RestTemplate restTemplate = new RestTemplate();
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
-        for (Object value : values) {
-            Movie movie = mapper.convertValue(value, Movie.class);
-            movies.add(movie);
-        }
-        return movies;
-    }
-
 
 }
