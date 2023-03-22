@@ -18,4 +18,6 @@ public interface MovieService {
 
 
     List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations);
+
+    List<Movie> getMoviesByActor(Long actorId);
 }

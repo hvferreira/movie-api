@@ -46,6 +46,12 @@ public class MovieController {
 
     }
 
+    @GetMapping({"/actor/{actorId}"})
+    public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
+        return new ResponseEntity<List<Movie>>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
+
+    }
+
     @GetMapping({"/genrelist"})
     public ResponseEntity<List<Genres>> genrelist() {
         log.debug("##### CONTROLLER *** GenreList ######");
