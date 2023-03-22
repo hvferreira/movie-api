@@ -52,7 +52,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-
     public Movie getLatestMovie() {
         RestTemplate restTemplate = new RestTemplate();
         String url = apiUrl + "movie/latest?api_key=" + apiKey;
@@ -106,7 +105,7 @@ public class MovieServiceImpl implements MovieService {
         return movies;
     }
 
-    private List<Movie> returnMovieListFromUrl(String url){
+    private List<Movie> returnMovieListFromUrl(String url) {
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
         List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get("results");
@@ -118,6 +117,6 @@ public class MovieServiceImpl implements MovieService {
         }
         return movies;
     }
-    
+
 
 }
