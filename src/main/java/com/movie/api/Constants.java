@@ -33,4 +33,6 @@ public class Constants {
     public static final String ENDPOINT_SIMILAR = "similar";
     public static final String ENDPOINT_LATEST = "latest";
 
+    public static final String ENDPOINT_SEARCH = "search";
+
 }
