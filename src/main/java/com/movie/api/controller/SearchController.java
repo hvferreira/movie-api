@@ -33,7 +33,11 @@ public class SearchController {
     @GetMapping({"/movie/{searchTerm}"})
     public ResponseEntity<List<Movie>> searchMovies(@PathVariable String searchTerm) {
         return new ResponseEntity<List<Movie>>(searchService.searchMovies(searchTerm), HttpStatus.OK);
+    }
 
+    @GetMapping({"/actor/{searchTerm}"})
+    public ResponseEntity<List<Actor>> searchActor(@PathVariable String searchTerm) {
+        return new ResponseEntity<List<Actor>>(searchService.searchActor(searchTerm), HttpStatus.OK);
     }
 
 }

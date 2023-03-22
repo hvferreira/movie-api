@@ -3,6 +3,7 @@ package com.movie.api.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.Constants;
+import com.movie.api.model.Actor;
 import com.movie.api.model.Movie;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,5 +28,11 @@ public class SearchServiceImpl implements SearchService {
     public List<Movie> searchMovies(String searchTerm) {
         String url = apiUrl + Constants.ENDPOINT_SEARCH+ "/"+Constants.ENDPOINT_MOVIE+"?api_key=" + apiKey + "&query=" + searchTerm;
         return ResponseHelper.returnMovieListFromUrl(url);
+    }
+
+    @Override
+    public List<Actor> searchActor(String searchTerm) {
+        String url = apiUrl + Constants.ENDPOINT_SEARCH+ "/"+Constants.ENDPOINT_PERSON+"?api_key=" + apiKey + "&query=" + searchTerm;
+        return ResponseHelper.returnActorListFromUrl(url, "");
     }
 }

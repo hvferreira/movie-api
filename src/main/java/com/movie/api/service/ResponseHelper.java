@@ -39,6 +39,7 @@ public class ResponseHelper {
         switch(type){
             case Constants.ENDPOINT_MOVIE -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CAST);
             case  Constants.ENDPOINT_POPULAR -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
+            default  -> values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
         }
         assert values != null;
         for(Object value : values){
