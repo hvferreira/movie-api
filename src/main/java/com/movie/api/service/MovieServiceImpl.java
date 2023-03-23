@@ -101,9 +101,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMoviesWithParameters(int genre, String fromDate) {
-        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
-                "&with_genre=" + genre + "&release_date.gtr=" + fromDate;
+    public List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey;
+        if(parameterMap.get("genre")!=null){
+            url+="&with_genres=" + parameterMap.get("genre");
+        }
+        if(parameterMap.get("from_date")!=null){
+            url+="&release_date.gte=" + parameterMap.get("from_date");
+        }
         return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 

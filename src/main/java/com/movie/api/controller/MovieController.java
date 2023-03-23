@@ -117,8 +117,11 @@ public class MovieController {
     }
 
     @GetMapping({"/findMovies"})
-    public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(required = false) int genre, @RequestParam(required = false) String from_date) {
-        return new ResponseEntity<>(movieService.getMoviesWithParameters(genre, from_date), HttpStatus.OK);
+    public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(defaultValue = "1900-01-01") String from_date, @RequestParam(required = false) String genre) {
+        LinkedHashMap<String, String> parameterMap = new LinkedHashMap<>();
+        parameterMap.put("genre", genre);
+        parameterMap.put("from_date", from_date);
+        return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
 
     @GetMapping({"/health"})

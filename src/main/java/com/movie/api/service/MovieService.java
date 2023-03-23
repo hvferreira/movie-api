@@ -5,6 +5,7 @@ import com.movie.api.model.Movie;
 import com.movie.api.model.Actor;
 import org.springframework.boot.actuate.health.Health;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public interface MovieService {
@@ -29,7 +30,7 @@ public interface MovieService {
     List<Movie> getMoviesWithinRating(Double minRate, Double maxRate);
     List<Movie> getMoviesWithActors(Long actor1, Long actor2);
 
-    List<Movie> getMoviesWithParameters(int genre, String fromDate);
+    List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap);
 
     Health getHealth();
 
