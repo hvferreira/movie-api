@@ -32,6 +32,8 @@ public interface MovieService {
 
     List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap);
 
+    List<Movie> getMoviesWithTimeAvailable(String timeAvailable);
+
     Health getHealth();
 
 

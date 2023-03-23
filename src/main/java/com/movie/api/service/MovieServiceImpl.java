@@ -115,6 +115,13 @@ public class MovieServiceImpl implements MovieService {
         return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 
+    @Override
+    public List<Movie> getMoviesWithTimeAvailable(String timeAvailable) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
+                "&with_runtime.lte=" + timeAvailable;
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
+    }
+
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
