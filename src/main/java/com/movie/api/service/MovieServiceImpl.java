@@ -112,15 +112,12 @@ public class MovieServiceImpl implements MovieService {
         if(parameterMap.get("rating")!=null){
             url+="&vote_average.gte=" + parameterMap.get("rating");
         }
+        if(parameterMap.get("time_available")!=null){
+            url+="&with_runtime.lte=" + parameterMap.get("time_available");
+        }
         return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 
-    @Override
-    public List<Movie> getMoviesWithTimeAvailable(String timeAvailable) {
-        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
-                "&with_runtime.lte=" + timeAvailable;
-        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
-    }
 
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();

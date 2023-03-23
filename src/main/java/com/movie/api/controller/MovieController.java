@@ -116,19 +116,17 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getRandomMovie(), HttpStatus.OK);
     }
 
-    @GetMapping({"/timeLimit/{timeAvailable}"})
-    public ResponseEntity<List<Movie>> moviesWithTimeAvailable(@PathVariable String timeAvailable) {
-        return new ResponseEntity<>(movieService.getMoviesWithTimeAvailable(timeAvailable), HttpStatus.OK);
-    }
-
     @GetMapping({"/findMovies"})
     public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(defaultValue = "1900-01-01") String from_date,
                                                                         @RequestParam(required = false) String genre,
-                                                                        @RequestParam(required = false) String rating) {
+                                                                        @RequestParam(required = false) String rating,
+                                                                        @RequestParam(required = false) String time_available)
+    {
         LinkedHashMap<String, String> parameterMap = new LinkedHashMap<>();
         parameterMap.put("genre", genre);
         parameterMap.put("from_date", from_date);
         parameterMap.put("rating", rating);
+        parameterMap.put("time_available", time_available);
         return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
 
