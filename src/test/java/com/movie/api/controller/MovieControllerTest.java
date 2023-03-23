@@ -49,7 +49,7 @@ class MovieControllerTest {
     ActorService actorService;
 
     @Test
-    void movieByID() throws Exception {
+    void testMovieByID() throws Exception {
         Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07",
                 "A fatally ill mother with only two months to live creates a list of things");
 
@@ -101,7 +101,7 @@ class MovieControllerTest {
 
 
     @Test
-    void movieRecommendations() throws Exception {
+    void testMovieRecommendations() throws Exception {
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(20L, "My Life Without Me", "2003-03-07",
                 "A fatally ill mother with only two months to live creates a list of things"));
@@ -131,14 +131,14 @@ class MovieControllerTest {
     }
 
     @Test
-    void movieSimilar() throws Exception {
+    void testMovieSimilar() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/20/similar"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void genrelist() throws Exception {
+    void testGenrelist() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/genrelist"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -146,36 +146,35 @@ class MovieControllerTest {
 
 
     @Test
-    void popularMovies() throws Exception {
+    void testPopularMovies() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/popularMovies"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void topRatedMovies() throws Exception {
+    void testTopRatedMovies() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/topRatedMovies"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void latestMovie() throws Exception {
+    void testLatestMovie() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/latestMovie"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void actorById() throws Exception {
+    void testActorById() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/20/actors"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    @ResponseBody
-    void health() throws Exception {
+    void testHealth() throws Exception {
         // this.mockMvc.perform(get("/api/v1/movie/health")).andDo(print()).andExpect(status().isOk())
         //       .andExpect(content().string(containsString(String.valueOf(Health.up().build()))));
 
@@ -192,8 +191,7 @@ class MovieControllerTest {
         //      .andExpect(jsonPath("$.status").exists())
         //    .andExpect(jsonPath("$.details.strategy").value("thread-local"))
         //  .andExpect(jsonPath("$.details.chance").exists());
-
-
+        
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/health"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
