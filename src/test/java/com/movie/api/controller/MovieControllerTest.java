@@ -1,6 +1,7 @@
 package com.movie.api.controller;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.awt.print.Book;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,15 +48,34 @@ class MovieControllerTest {
     @Test
     @ResponseBody
     void movieByID() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/20");
-        MvcResult result = mockMvc.perform(request).andReturn();
-        assertEquals(20, result.getResponse().getContentAsString());
+
+
+        Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07",
+                "A fatally ill mother with only two months to live creates a list of things");
+
+        when(movieService.getMovieById(movie.getId())).thenReturn(movie);
+
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/" + movie.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(20L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.original_title").value("My Life Without Me"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("2003-03-07"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.overview").value("A fatally ill mother with only two months to live creates a list of things"));
+
+
+        //RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/20");
+        // MvcResult result = mockMvc.perform(request).andReturn();
+        // assertEquals(20, result.getResponse().getContentAsString());
+
+
+
 
 
        /* mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/20"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(20))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.original_title").value("My Life Without Me"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("2003-03-07"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("My Life Without Me"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.overview").value("A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness."));
 */
        /* mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/20")).andExpect(status().isOk())
