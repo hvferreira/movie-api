@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.util.Random;
@@ -51,13 +52,6 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR), HttpStatus.OK);
 
     }
-
-   /* @GetMapping({"/actor/{actorId}"})
-    public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
-        return new ResponseEntity<>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
-
-    }*/
-
     @GetMapping({"/actor"})
     public ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required=false) Long actor2) {
         if(actor2==null){
@@ -120,6 +114,20 @@ public class MovieController {
     public ResponseEntity<Movie> chooseRandomMovie() {
         log.debug("##### CONTROLLER *** random  ######");
         return new ResponseEntity<>(movieService.getRandomMovie(), HttpStatus.OK);
+    }
+
+    @GetMapping({"/findMovies"})
+    public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(defaultValue = "1900-01-01") String from_date,
+                                                                        @RequestParam(required = false) String genre,
+                                                                        @RequestParam(required = false) String rating,
+                                                                        @RequestParam(required = false) String time_available)
+    {
+        LinkedHashMap<String, String> parameterMap = new LinkedHashMap<>();
+        parameterMap.put("genre", genre);
+        parameterMap.put("from_date", from_date);
+        parameterMap.put("rating", rating);
+        parameterMap.put("time_available", time_available);
+        return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
 
     @GetMapping({"/health"})

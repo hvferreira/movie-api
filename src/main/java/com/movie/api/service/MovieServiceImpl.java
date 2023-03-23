@@ -100,6 +100,25 @@ public class MovieServiceImpl implements MovieService {
         return actor1List.stream().filter(two->actor2List.stream().anyMatch(one->one.getId().equals(two.getId()))).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey;
+        if(parameterMap.get("genre")!=null){
+            url+="&with_genres=" + parameterMap.get("genre");
+        }
+        if(parameterMap.get("from_date")!=null){
+            url+="&release_date.gte=" + parameterMap.get("from_date");
+        }
+        if(parameterMap.get("rating")!=null){
+            url+="&vote_average.gte=" + parameterMap.get("rating");
+        }
+        if(parameterMap.get("time_available")!=null){
+            url+="&with_runtime.lte=" + parameterMap.get("time_available");
+        }
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
+    }
+
+
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
