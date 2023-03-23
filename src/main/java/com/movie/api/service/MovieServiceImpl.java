@@ -100,6 +100,13 @@ public class MovieServiceImpl implements MovieService {
         return actor1List.stream().filter(two->actor2List.stream().anyMatch(one->one.getId().equals(two.getId()))).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Movie> getMoviesWithParameters(int genre, String fromDate) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
+                "&with_genre=" + genre + "&release_date.gtr=" + fromDate;
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
+    }
+
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();

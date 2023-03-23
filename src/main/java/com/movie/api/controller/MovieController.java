@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.util.Random;
@@ -51,13 +52,6 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR), HttpStatus.OK);
 
     }
-
-   /* @GetMapping({"/actor/{actorId}"})
-    public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
-        return new ResponseEntity<>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
-
-    }*/
-
     @GetMapping({"/actor"})
     public ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required=false) Long actor2) {
         if(actor2==null){
@@ -120,6 +114,11 @@ public class MovieController {
     public ResponseEntity<Movie> chooseRandomMovie() {
         log.debug("##### CONTROLLER *** random  ######");
         return new ResponseEntity<>(movieService.getRandomMovie(), HttpStatus.OK);
+    }
+
+    @GetMapping({"/findMovies"})
+    public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(required = false) int genre, @RequestParam(required = false) String from_date) {
+        return new ResponseEntity<>(movieService.getMoviesWithParameters(genre, from_date), HttpStatus.OK);
     }
 
     @GetMapping({"/health"})
