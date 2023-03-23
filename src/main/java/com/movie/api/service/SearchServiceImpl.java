@@ -27,7 +27,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public List<Movie> searchMovies(String searchTerm) {
         String url = apiUrl + Constants.ENDPOINT_SEARCH+ "/"+Constants.ENDPOINT_MOVIE+"?api_key=" + apiKey + "&query=" + searchTerm;
-        return ResponseHelper.returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 
     @Override
