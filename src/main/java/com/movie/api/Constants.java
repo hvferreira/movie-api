@@ -18,6 +18,8 @@ public class Constants {
     public static final String QUERY_CREW= "crew"; // used to get director
     public static final String QUERY_GENRE= "genres"; // used to get categories/genre of a movie
 
+    public static final String QUERY_ADULT = "&include_adult=false";
+
     /*
     ENDPOINTS FOR EXTERNAL API
      */

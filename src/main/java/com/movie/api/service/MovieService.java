@@ -27,8 +27,9 @@ public interface MovieService {
 
 
     List<Movie> getMoviesWithinRating(Double minRate, Double maxRate);
-
+    List<Movie> getMoviesWithActors(Long actor1, Long actor2);
 
     Health getHealth();
+
 
 }

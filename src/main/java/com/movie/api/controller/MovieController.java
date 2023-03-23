@@ -52,10 +52,19 @@ public class MovieController {
 
     }
 
-    @GetMapping({"/actor/{actorId}"})
+   /* @GetMapping({"/actor/{actorId}"})
     public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
         return new ResponseEntity<>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
 
+    }*/
+
+    @GetMapping({"/actor"})
+    public ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required=false) Long actor2) {
+        if(actor2==null){
+            return new ResponseEntity<>(movieService.getMoviesByActor(actor1), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(movieService.getMoviesWithActors(actor1, actor2), HttpStatus.OK);
+        }
     }
 
     @GetMapping({"/{movieId}/director"})

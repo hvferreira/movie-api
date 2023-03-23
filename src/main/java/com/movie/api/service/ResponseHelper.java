@@ -20,10 +20,10 @@ public class ResponseHelper {
 
     private static final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public static List<Movie> returnMovieListFromUrl(String url) {
+    public static List<Movie> returnMovieListFromUrl(String url, String type) {
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(type);
         for (Object value : values) {
             Movie movie = mapper.convertValue(value, Movie.class);
             movies.add(movie);

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -58,7 +59,7 @@ public class MovieServiceImpl implements MovieService {
             case Constants.ENDPOINT_TOP_RATED ->
                     url = apiUrl + Constants.ENDPOINT_MOVIE + "/" + Constants.ENDPOINT_TOP_RATED + "?api_key=" + apiKey;
         }
-        return ResponseHelper.returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 
     @Override
@@ -89,8 +90,16 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getMoviesWithinRating(Double minRate, Double maxRate) {
         String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
                 "&vote_average.gte=" + minRate + "&vote_average.lte=" + maxRate;
-        return ResponseHelper.returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
+
+    @Override
+    public List<Movie> getMoviesWithActors(Long actor1, Long actor2) {
+        List<Movie> actor1List = getMoviesByActor(actor1);
+        List<Movie> actor2List = getMoviesByActor(actor2);
+        return actor1List.stream().filter(two->actor2List.stream().anyMatch(one->one.getId().equals(two.getId()))).collect(Collectors.toList());
+    }
+
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
@@ -115,7 +124,7 @@ public class MovieServiceImpl implements MovieService {
                     url = apiUrl + "/" + Constants.ENDPOINT_MOVIE + "/" + movieId + "/" + Constants.ENDPOINT_SIMILAR + "?api_key=" + apiKey;
         }
         log.debug("##### ServiceImpl *** getMovieRecommendationsSimilar *** URL=" + apiUrl + " ######");
-        List<Movie> movies = ResponseHelper.returnMovieListFromUrl(url);
+        List<Movie> movies = ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
         log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
     }
@@ -123,7 +132,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getMoviesByActor(Long actorId) {
         String url = apiUrl + "/" + Constants.ENDPOINT_PERSON + "/" + actorId + "/" + Constants.ENDPOINT_CREDITS_PERSON + "?api_key=" + apiKey;
-        return ResponseHelper.returnMovieListFromUrl(url);
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_CAST);
     }
 
     @Override
