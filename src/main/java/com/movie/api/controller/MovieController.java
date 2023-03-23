@@ -1,9 +1,9 @@
 package com.movie.api.controller;
-
-
+import com.movie.api.Constants;
 import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
+import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +19,43 @@ import java.util.List;
 @Slf4j
 @ToString
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/movie")
+
 public class MovieController {
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
+    @Autowired
+    ActorService actorService;
 
-    @GetMapping({"/movie/{movieId}/recommendations"})
+    @GetMapping({"/"})
+    public ResponseEntity<Movie> defaultMapping() {
+       return latestMovie();
+    }
+
+    @GetMapping({"/{movieId}/recommendations"})
     public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** MovieRecommendations ######");
-        return new ResponseEntity<>(movieService.getMovieRecommendations(movieId), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/{movieId}/similar"})
+    public ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId) {
+        log.debug("##### CONTROLLER *** movieSimilar ######");
+        return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/actor/{actorId}"})
+    public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
+        return new ResponseEntity<List<Movie>>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
+
+    }
+
+    @GetMapping({"/{movieId}/director"})
+    public ResponseEntity<String> directorByMovie(@PathVariable Long movieId) {
+        return new ResponseEntity<String>(movieService.getDirectorByMovie(movieId), HttpStatus.OK);
 
     }
 
@@ -40,7 +67,7 @@ public class MovieController {
     }
 
 
-    @GetMapping({"movie/{movieId}"})
+    @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
         return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.OK);
@@ -49,28 +76,26 @@ public class MovieController {
 
     @GetMapping({"/popularMovies"})
     public ResponseEntity<List<Movie>> popularMovies() {
-        return new ResponseEntity<>(movieService.getMovies("popular"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovies(Constants.ENDPOINT_POPULAR), HttpStatus.OK);
 
     }
 
     @GetMapping({"/topRatedMovies"})
     public ResponseEntity<List<Movie>> topRatedMovies() {
-        return new ResponseEntity<>(movieService.getMovies("top_rated"), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovies(Constants.ENDPOINT_TOP_RATED), HttpStatus.OK);
 
     }
 
-    @GetMapping({"/latestMovies"})
+    @GetMapping({"/latestMovie"})
     public ResponseEntity<Movie> latestMovie() {
         return new ResponseEntity<>(movieService.getLatestMovie(), HttpStatus.OK);
 
     }
 
-    @GetMapping({"/actor/{actorId}"})
-    public ResponseEntity<Actor> actorById(@PathVariable Long actorId) {
-        return new ResponseEntity<>(movieService.getActor(actorId), HttpStatus.OK);
-
+    @GetMapping({"{movieId}/actors"})
+    public ResponseEntity<List<Actor>> actorsByMovieId(@PathVariable Long movieId) {
+        return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
     }
-
 
     @GetMapping({"/health"})
     public ResponseEntity<Health> health() {
@@ -78,20 +103,4 @@ public class MovieController {
         return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
     }
 
-     /*@GetMapping({"/allmovies"})
-    public ResponseEntity<List<Movie>> allMovies() {
-        log.debug("##### CONTROLLER *** allMovies ######");
-        List<Movie> movies = movieService.getAllMovies();
-        return new ResponseEntity<>(movies, HttpStatus.OK);
-    }
-*/
-
-   /* @PostMapping
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        Movie newMovie = movieService.addMovie(movie);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("book", "/api/v1/book/" + newMovie.getId().toString());
-        System.out.println("Movie added successfully with ID " + newMovie.getId());
-        return new ResponseEntity<>(newMovie, httpHeaders, HttpStatus.CREATED);
-    }*/
 }

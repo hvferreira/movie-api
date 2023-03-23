@@ -1,5 +1,6 @@
 package com.movie.api;
 
+import com.movie.api.exception.ActorNotFoundException;
 import com.movie.api.exception.ErrorResponse;
 import com.movie.api.exception.MovieNotFoundException;
 import com.movie.api.exception.PersonNotFoundException;
@@ -10,15 +11,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-
     @ExceptionHandler(MovieNotFoundException.class)
-    public ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e){
+    public ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e){
+    public ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ActorNotFoundException.class)
+    public ResponseEntity<Object> handleActorNotFoundException(ActorNotFoundException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }

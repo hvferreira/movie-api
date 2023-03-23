@@ -9,12 +9,21 @@ actor User
 
 'define colors
 participant API #orange
-group controller
+participant MoviewAPI #cyan
 
+'group service
+group controller
 User -[#red]> API: (/) Request
-User <[#blue]- API: (/) Request ("WE NEED TO DECIDE")
+    end
+    group service
+API -[#red]> MoviewAPI: ( getLatestMovie()) Request
+API <[#blue]- MoviewAPI: ( getLatestMovie()) Response (lastMovie))
+end
+ group controller
+User <[#blue]- API: (/) Response (lastMovie)
 
 User -[#red]> API: ( /health) Request
+ end
 User <[#blue]- API: ( /health) Response(Status UP)
 
 User -[#red]> API: ( /allmovies) Request
@@ -59,9 +68,9 @@ User <[#blue]- API: ( /randommoviebyyear&category) Response
 User -[#red]> API: ( /moviebywheather) Request
 User <[#blue]- API: ( /moviebywheather) Response
 
-    end
+    'end
 
-group service
+'group service
 participant MoviewAPI #cyan
 
 API -[#red]> MoviewAPI: ( getAllMovies) Request
@@ -104,7 +113,7 @@ API <[#blue]- MoviewAPI: ( getRandomMovieByYear) Response (movie)
 API -[#red]> MoviewAPI: ( /getMovieByWHEATHER) Request
 API <[#blue]- MoviewAPI: ( /getMovieByWHEATHER) Response (movie)
 
-    end
+    'end
 
 
 'group repository
