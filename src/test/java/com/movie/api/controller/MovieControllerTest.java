@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.movie.api.Constants;
+import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
@@ -113,8 +114,29 @@ class MovieControllerTest {
     void directorByMovie() {
     }
 
-    @Test
-    void genrelist() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/testFiles/Controller/MovieController/testGenrelist.csv", numLinesToSkip = 1)
+    void testGenrelist(String id_0, String name_0, String id_1, String name_1, String id_2, String name_2, String id_3, String name_3) throws Exception {
+
+        List<Genres> genres = new ArrayList<>();
+        genres.add(new Genres(Long.parseLong(id_0), name_0));
+        genres.add(new Genres(Long.parseLong(id_1), name_1));
+        genres.add(new Genres(Long.parseLong(id_2), name_2));
+        genres.add(new Genres(Long.parseLong(id_3), name_3));
+
+        when(movieService.getGenreList()).thenReturn(genres);
+
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/genrelist"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(id_0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(name_0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(id_1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value(name_1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(id_2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value(name_2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].id").value(id_3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].name").value(name_3));
     }
 
     @ParameterizedTest
