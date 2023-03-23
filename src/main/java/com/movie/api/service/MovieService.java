@@ -16,10 +16,11 @@ public interface MovieService {
 
     List<Genres> getGenreList();
 
-
     List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations);
 
     List<Movie> getMoviesByActor(Long actorId);
+
+    public Movie getRandomMovie();
 
     String getDirectorByMovie(Long movieId);
 }

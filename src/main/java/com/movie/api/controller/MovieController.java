@@ -8,13 +8,16 @@ import com.movie.api.service.MovieService;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @ToString
@@ -32,6 +35,12 @@ public class MovieController {
     public ResponseEntity<Movie> defaultMapping() {
        return latestMovie();
     }
+
+public class MovieController {
+    @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
+    MovieService movieService;
+    private static int maximumMovieId = 1101964;
+
 
     @GetMapping({"/{movieId}/recommendations"})
     public ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId) {
@@ -66,7 +75,6 @@ public class MovieController {
 
     }
 
-
     @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
@@ -95,6 +103,12 @@ public class MovieController {
     @GetMapping({"{movieId}/actors"})
     public ResponseEntity<List<Actor>> actorsByMovieId(@PathVariable Long movieId) {
         return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
+    }
+
+    @GetMapping({"/random"})
+    public ResponseEntity<Movie> chooseRandomMovie() {
+        log.debug("##### CONTROLLER *** random  ######");
+        return new ResponseEntity<>(movieService.getRandomMovie(), HttpStatus.OK);
     }
 
     @GetMapping({"/health"})
