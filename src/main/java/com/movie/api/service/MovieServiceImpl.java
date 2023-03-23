@@ -140,12 +140,9 @@ public class MovieServiceImpl implements MovieService {
             }
         }
     }
-/*
     @Override
     public List<Movie> getUpcomingMovies(){
         String url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + Constants.ENDPOINT_SEARCH + "?api_key=" + apiKey;
         return ResponseHelper.returnMovieListFromUrl(url);
     }
-
- */
 }
