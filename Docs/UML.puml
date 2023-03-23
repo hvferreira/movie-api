@@ -3,26 +3,60 @@
 
 package controller <<Folder>> #lime{
 
-    class ControllerMovie{
-    -Hi
-    +good
+    class MovieController{
+    + MovieService movieService
+    + ActorService actorService
+    + ResponseEntity<Movie> movieByID(@PathVariable Long movieId)
+    + ResponseEntity<Health> health()
+    + ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId)
+    + ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId)
+    + ResponseEntity<List<Genres>> genrelist()
+    + ResponseEntity<Movie> movieByID(@PathVariable Long movieId)
+    + ResponseEntity<List<Movie>> popularMovies()
+    + ResponseEntity<List<Movie>> topRatedMovies()
+    + ResponseEntity<Movie> latestMovie()
     }
 
+    class ActorController{
+    + ActorService actorService
+    + ResponseEntity<List<Actor>> defaultMapping()
+    + ResponseEntity<Actor> actorById(@PathVariable Long actorId)
+    + ResponseEntity<List<Actor>> popularActors()
+    }
 }
 
 
 package model <<Folder>> #burlywood{
 
   class Movie{
-    +Hi
+  - Long id;
+  - String original_title;
+  - String release_date;
+  - String overview;
     }
 
+  class Actor{
+
+  }
+  class Person{
+  - Long id;
+  - String name;
+  - String known_for_department;
+  - String birthday;
+  - String biography;
+        }
+
+  class Genres{
+  - Long id;
+  - String name;
+
+     }
 }
 
 package repository <<Folder>> #violet {
 
   interface MovieRepository {
-  
+
   }
 
 }
@@ -30,11 +64,42 @@ package repository <<Folder>> #violet {
 package service <<Folder>> #red{
 
   interface MovieService{
-  +Hi
+  + Movie getMovieById(Long movieId)
+  + List<Movie> getMovies(String type)
+  + Movie getLatestMovie()
+  + List<Genres> getGenreList()
+  + List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations)
+  + List<Movie> getMoviesByActor(Long actorId)
   }
   class MovieServiceImpl{
-  +Hi
+  - String apiKey
+  - String apiUrl;
+  + MovieRepository movieRepository
+  + Movie getMovieById(Long movieId)
+  + List<Movie> getMovies(String type)
+  + Movie getLatestMovie()
+  + List<Genres> getGenreList()
+  + List<Movie> getMovieRecommendationsSimilar(Long movieId, String type)
+  + List<Movie> getMoviesByActor(Long actorId)
+  - List<Movie> returnMovieListFromUrl(String url)
   }
+
+  interface ActorService{
+  + Actor getActor(Long actorId)
+  + List<Actor> getActorsByMovieId(Long movieId)
+  + List<Actor> getPopularActors()
+  }
+
+  class ActorServiceImpl{
+  - String apiKey
+  - String apiUrl
+  + Actor getActor(Long actorId)
+  + List<Actor> getActorsByMovieId(Long movieId)
+  + List<Actor> getPopularActors()
+  - List<Actor> returnActorListFromUrl(String url, String type)
+  }
+
+
 
 }
 Interface CrudRepository<movie,ID>{
@@ -42,14 +107,74 @@ Interface CrudRepository<movie,ID>{
 }
 
 class ExternalMovieAPI{
-    +Hi
+
     }
 
-ControllerMovie <-right-> MovieServiceImpl
-MovieRepository -left-> CrudRepository
+package exception <<Folder>> #brown{
+    class ErrorResponse{
+    - LocalDateTime timestamp;
+    - String message;
+    __
+    + errorResponse(String message)
+    ..
+    +void setMessage(String message)
+    +LocalDateTime getTimestamp()
+    +void setTimestamp(LocalDateTime timestamp)
+    }
+    class MovieNotFoundException {
+    + MovieNotFoundException()
+
+    }
+    class MyMovieErrorHandler {
+     + handleError(ClientHttpResponse response)
+    }
+
+    class ActorNotFoundException {
+    + ActorNotFoundException()
+    }
+
+    class MyPersonErrorHandler {
+    + void handleError(ClientHttpResponse response)
+    }
+
+    class PersonNotFoundException {
+    + PersonNotFoundException()
+    }
+
+
+
+    }
+    class ApplicationExceptionHandler{
+    + ResponseEntity<Object> handleMovieNotFoundException(MovieNotFoundException e)
+    + ResponseEntity<Object> handlePersonNotFoundException(PersonNotFoundException e)
+    + ResponseEntity<Object> handleActorNotFoundException(ActorNotFoundException e)
+
+    }
+
+MovieController <--> MovieServiceImpl
+MovieRepository --> CrudRepository
 
 MovieServiceImpl -- MovieService
-MovieServiceImpl -up- MovieRepository
-MovieRepository -right- Movie
-MovieServiceImpl -right- ExternalMovieAPI
+MovieServiceImpl -- MovieRepository
+MovieRepository -- Movie
+MovieServiceImpl -- ExternalMovieAPI
+
+ActorController <--> ActorServiceImpl
+ActorServiceImpl -- ActorService
+Actor -up-> Person
+Genres -- MovieServiceImpl
+
+'exception
+ActorNotFoundException --> RuntimeException
+MovieNotFoundException --> RuntimeException
+MyMovieErrorHandler --> DefaultResponseErrorHandler
+MyPersonErrorHandler --> DefaultResponseErrorHandler
+PersonNotFoundException --> RuntimeException
+
+ApplicationExceptionHandler -- MovieNotFoundException
+ApplicationExceptionHandler -- PersonNotFoundException
+ApplicationExceptionHandler -- ActorNotFoundException
+ApplicationExceptionHandler -- ErrorResponse
+
+
 @enduml
