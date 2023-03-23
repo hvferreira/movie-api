@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -110,8 +111,6 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = ResponseHelper.returnMovieListFromUrl(url);
         log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
-<<<<<<< Updated upstream
-
     }
 
     @Override
@@ -122,17 +121,17 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getRandomMovie() {
-        log.debug("##### ServiceImpl *** getRandomMovie ***  ######");
-
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseErrorHandler myMovieErrorHandler = new  MyMovieErrorHandler();
         int count = 0;
         int maxTries = 5;
         while(true) {
             try {
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.setErrorHandler(new MyMovieErrorHandler());
                 Random rand = new Random();
                 long id = rand.nextInt(maximumMovieId) + 1;
-                String url = apiUrl + "movie/" + (id-count) + "?api_key=" + apiKey;
+                restTemplate.setErrorHandler(myMovieErrorHandler);
+                String url = apiUrl + Constants.ENDPOINT_MOVIE + "/" + id + "?api_key=" + apiKey;
+                log.debug("##### ServiceImpl *** getRandomMovie *** id = " + id + "  ######");
                 Movie movie = restTemplate.getForObject(url, Movie.class);
                 log.debug("Movie " + movie.getId() + "  " + movie.getOriginal_title() + " count = " + count);
                 return movie;
@@ -140,5 +139,12 @@ public class MovieServiceImpl implements MovieService {
                 if (++count == maxTries) throw e;
             }
         }
+    }
+
+    @Override
+    public List<Movie> getUpcomingMovies(){
+        // https://api.themoviedb.org/3/movie/upcoming?api_key=513ec57012d6183655f825870b006514&language=en&region=GB
+        String url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + Constants.ENDPOINT_SEARCH + "?api_key=" + apiKey;
+        return ResponseHelper.returnMovieListFromUrl(url);
     }
 }

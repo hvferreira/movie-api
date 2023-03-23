@@ -20,7 +20,9 @@ public interface MovieService {
 
     List<Movie> getMoviesByActor(Long actorId);
 
-    public Movie getRandomMovie();
+    Movie getRandomMovie();
 
     String getDirectorByMovie(Long movieId);
+
+    List<Movie> getUpcomingMovies();
 }
