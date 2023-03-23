@@ -130,11 +130,11 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
 
-    @GetMapping({"/health"})
-    public ResponseEntity<Health> health() {
-        log.debug("##### CONTROLLER *** health  ######");
-        //return new ResponseEntity<>(movieService.getHealth(), HttpStatus.OK);
-        return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
-    }
+    //@GetMapping({"/health"})
+    //public ResponseEntity<Health> health() {
+    //  log.debug("##### CONTROLLER *** health  ######");
+    //return new ResponseEntity<>(movieService.getHealth(), HttpStatus.OK);
+    //return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
+    //}
 
 }
