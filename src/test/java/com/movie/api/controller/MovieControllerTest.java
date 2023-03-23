@@ -80,35 +80,57 @@ class MovieControllerTest {
 
 
     @Test
-    void movieRecommendations() {
+    void movieRecommendations() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/20/recommendations"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void movieSimilar() {
+    void movieSimilar() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/20/similar"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void genrelist() {
+    void genrelist() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/genrelist"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 
     @Test
-    void popularMovies() {
+    void popularMovies() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/popularMovies"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void topRatedMovies() {
+    void topRatedMovies() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/topRatedMovies"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void latestMovie() {
+    void latestMovie() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/latestMovie"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void actorById() {
+    void actorById() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/20/actors"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @ResponseBody
     void health() throws Exception {
         // this.mockMvc.perform(get("/api/v1/movie/health")).andDo(print()).andExpect(status().isOk())
         //       .andExpect(content().string(containsString(String.valueOf(Health.up().build()))));
