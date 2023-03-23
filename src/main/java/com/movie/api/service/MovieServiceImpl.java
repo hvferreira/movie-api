@@ -109,6 +109,9 @@ public class MovieServiceImpl implements MovieService {
         if(parameterMap.get("from_date")!=null){
             url+="&release_date.gte=" + parameterMap.get("from_date");
         }
+        if(parameterMap.get("rating")!=null){
+            url+="&vote_average.gte=" + parameterMap.get("rating");
+        }
         return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
     }
 
