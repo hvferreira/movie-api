@@ -22,4 +22,7 @@ public interface MovieService {
     List<Movie> getMoviesByActor(Long actorId);
 
     String getDirectorByMovie(Long movieId);
+
+    List<Movie> getMoviesWithinRating(Double minRate, Double maxRate);
+
 }

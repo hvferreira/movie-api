@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+
 @Entity
 @Data
 @Builder
@@ -21,6 +22,10 @@ public class Movie {
     private String release_date;
 
     private String overview;
+
+    private double vote_average;
+
+
 
     //private Genres genre;
 
