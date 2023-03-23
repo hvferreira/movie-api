@@ -23,9 +23,8 @@ public class Movie {
 
     private String overview;
 
+
     private double vote_average;
-
-
 
     //private Genres genre;
 

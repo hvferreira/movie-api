@@ -1,4 +1,5 @@
 package com.movie.api.controller;
+
 import com.movie.api.Constants;
 import com.movie.api.model.Actor;
 import com.movie.api.model.Genres;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.util.Random;
+
 @Slf4j
 @ToString
 @RestController
 @RequestMapping("/api/v1/movie")
-
 public class MovieController {
+
+    private static int maximumMovieId = 1101964;
+
     @Autowired//movie controller class has dependencies on service class and automatically injects an instance of movie service class
     MovieService movieService;
 
@@ -30,7 +35,7 @@ public class MovieController {
 
     @GetMapping({"/"})
     public ResponseEntity<Movie> defaultMapping() {
-       return latestMovie();
+        return latestMovie();
     }
 
     @GetMapping({"/{movieId}/recommendations"})
@@ -66,7 +71,6 @@ public class MovieController {
 
     }
 
-
     @GetMapping({"/{movieId}"})
     public ResponseEntity<Movie> movieByID(@PathVariable Long movieId) {
         log.debug("##### CONTROLLER *** movieByID ID=" + movieId + " ######");
@@ -97,16 +101,22 @@ public class MovieController {
         return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
     }
 
+
     @GetMapping({"/rating"})
     public ResponseEntity<List<Movie>> moviesWithinRating(@RequestParam Double rateMin, @RequestParam(required=false) Double rateMax) {
         return new ResponseEntity<>(movieService.getMoviesWithinRating(rateMin, rateMax), HttpStatus.OK);
     }
 
-
+    @GetMapping({"/random"})
+    public ResponseEntity<Movie> chooseRandomMovie() {
+        log.debug("##### CONTROLLER *** random  ######");
+        return new ResponseEntity<>(movieService.getRandomMovie(), HttpStatus.OK);
+    }
 
     @GetMapping({"/health"})
     public ResponseEntity<Health> health() {
         log.debug("##### CONTROLLER *** health  ######");
+        //return new ResponseEntity<>(movieService.getHealth(), HttpStatus.OK);
         return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
     }
 
