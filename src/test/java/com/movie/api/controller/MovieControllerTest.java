@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import com.movie.api.Constants;
 import com.movie.api.model.Movie;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.awt.print.Book;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,10 +49,7 @@ class MovieControllerTest {
     ActorService actorService;
 
     @Test
-    @ResponseBody
     void movieByID() throws Exception {
-
-
         Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07",
                 "A fatally ill mother with only two months to live creates a list of things");
 
@@ -102,9 +102,32 @@ class MovieControllerTest {
 
     @Test
     void movieRecommendations() throws Exception {
+        List<Movie> movies = new ArrayList<>();
+        movies.add(new Movie(20L, "My Life Without Me", "2003-03-07",
+                "A fatally ill mother with only two months to live creates a list of things"));
+        movies.add(new Movie(20L, "My Life Without Me", "2003-03-07",
+                "A fatally ill mother with only two months to live creates a list of things"));
+        movies.add(new Movie(20L, "My Life Without Me", "2003-03-07",
+                "A fatally ill mother with only two months to live creates a list of things"));
+
+        when(movieService.getMovieRecommendationsSimilar(20L, Constants.ENDPOINT_RECOMMENDATIONS)).thenReturn(movies);
+
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/20/recommendations"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(20L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].original_title").value("My Life Without Me"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].release_date").value("2003-03-07"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].overview").value("A fatally ill mother with only two months to live creates a list of things"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(20L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].original_title").value("My Life Without Me"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].release_date").value("2003-03-07"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].overview").value("A fatally ill mother with only two months to live creates a list of things"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(20L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].original_title").value("My Life Without Me"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].release_date").value("2003-03-07"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].overview").value("A fatally ill mother with only two months to live creates a list of things"));
+
     }
 
     @Test
