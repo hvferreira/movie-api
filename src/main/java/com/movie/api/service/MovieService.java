@@ -25,5 +25,10 @@ public interface MovieService {
 
     String getDirectorByMovie(Long movieId);
 
+
+    List<Movie> getMoviesWithinRating(Double minRate, Double maxRate);
+
+
     Health getHealth();
+
 }

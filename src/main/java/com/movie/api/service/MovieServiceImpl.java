@@ -85,6 +85,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+
+    public List<Movie> getMoviesWithinRating(Double minRate, Double maxRate) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_DISCOVER+"/" + Constants.ENDPOINT_MOVIE + "?api_key=" + apiKey +
+                "&vote_average.gte=" + minRate + "&vote_average.lte=" + maxRate;
+        return ResponseHelper.returnMovieListFromUrl(url);
+    }
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();

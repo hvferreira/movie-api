@@ -35,4 +35,6 @@ public class Constants {
 
     public static final String ENDPOINT_SEARCH = "search";
 
+    public static final String ENDPOINT_DISCOVER = "discover";
+
 }

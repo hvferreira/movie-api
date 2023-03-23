@@ -23,7 +23,7 @@ public class ResponseHelper {
     public static List<Movie> returnMovieListFromUrl(String url) {
         List<Movie> movies = new ArrayList<Movie>();
         RestTemplate restTemplate = new RestTemplate();
-        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CAST);
+        List values = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_RESULTS);
         for (Object value : values) {
             Movie movie = mapper.convertValue(value, Movie.class);
             movies.add(movie);

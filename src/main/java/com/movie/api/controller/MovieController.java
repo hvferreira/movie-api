@@ -54,13 +54,13 @@ public class MovieController {
 
     @GetMapping({"/actor/{actorId}"})
     public ResponseEntity<List<Movie>> moviesByActor(@PathVariable Long actorId) {
-        return new ResponseEntity<List<Movie>>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMoviesByActor(actorId), HttpStatus.OK);
 
     }
 
     @GetMapping({"/{movieId}/director"})
     public ResponseEntity<String> directorByMovie(@PathVariable Long movieId) {
-        return new ResponseEntity<String>(movieService.getDirectorByMovie(movieId), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getDirectorByMovie(movieId), HttpStatus.OK);
 
     }
 
@@ -99,6 +99,12 @@ public class MovieController {
     @GetMapping({"{movieId}/actors"})
     public ResponseEntity<List<Actor>> actorsByMovieId(@PathVariable Long movieId) {
         return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
+    }
+
+
+    @GetMapping({"/rating"})
+    public ResponseEntity<List<Movie>> moviesWithinRating(@RequestParam Double rateMin, @RequestParam(required=false) Double rateMax) {
+        return new ResponseEntity<>(movieService.getMoviesWithinRating(rateMin, rateMax), HttpStatus.OK);
     }
 
     @GetMapping({"/random"})

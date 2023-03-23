@@ -40,4 +40,9 @@ public class SearchController {
         return new ResponseEntity<List<Actor>>(searchService.searchActor(searchTerm), HttpStatus.OK);
     }
 
+    @GetMapping({"/keyword/{searchTerm}"})
+    public ResponseEntity<List<Actor>> searchKeyword(@PathVariable String searchTerm) {
+        return new ResponseEntity<List<Actor>>(searchService.searchActor(searchTerm), HttpStatus.OK);
+    }
+
 }
