@@ -3,6 +3,7 @@ package com.movie.api.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.Constants;
+import com.movie.api.exception.MovieNotFoundException;
 import com.movie.api.exception.MyMovieErrorHandler;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
@@ -15,15 +16,21 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
+
+
 
 
 @Slf4j
 @Service
 @PropertySource("/application.properties")
 public class MovieServiceImpl implements MovieService {
+    private static final int MAX_REQUEST = 3;
+    private static int maximumMovieId = 1101964;
     @Autowired
     MovieRepository movieRepository;
 
@@ -78,7 +85,6 @@ public class MovieServiceImpl implements MovieService {
         return null;
     }
 
-
     public List<Genres> getGenreList() {
         List<Genres> genres = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
@@ -104,6 +110,7 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = ResponseHelper.returnMovieListFromUrl(url);
         log.debug("##### ServiceImpl *** getMovieRecommendations *** Size=" + movies.size() + " ######");
         return movies;
+<<<<<<< Updated upstream
 
     }
 
@@ -113,4 +120,25 @@ public class MovieServiceImpl implements MovieService {
         return ResponseHelper.returnMovieListFromUrl(url);
     }
 
+    @Override
+    public Movie getRandomMovie() {
+        log.debug("##### ServiceImpl *** getRandomMovie ***  ######");
+
+        int count = 0;
+        int maxTries = 5;
+        while(true) {
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.setErrorHandler(new MyMovieErrorHandler());
+                Random rand = new Random();
+                long id = rand.nextInt(maximumMovieId) + 1;
+                String url = apiUrl + "movie/" + (id-count) + "?api_key=" + apiKey;
+                Movie movie = restTemplate.getForObject(url, Movie.class);
+                log.debug("Movie " + movie.getId() + "  " + movie.getOriginal_title() + " count = " + count);
+                return movie;
+            } catch (MovieNotFoundException e) {
+                if (++count == maxTries) throw e;
+            }
+        }
+    }
 }
