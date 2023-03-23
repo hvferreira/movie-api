@@ -52,11 +52,12 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR), HttpStatus.OK);
 
     }
+
     @GetMapping({"/actor"})
-    public ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required=false) Long actor2) {
-        if(actor2==null){
+    public ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required = false) Long actor2) {
+        if (actor2 == null) {
             return new ResponseEntity<>(movieService.getMoviesByActor(actor1), HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(movieService.getMoviesWithActors(actor1, actor2), HttpStatus.OK);
         }
     }
@@ -106,7 +107,7 @@ public class MovieController {
 
 
     @GetMapping({"/rating"})
-    public ResponseEntity<List<Movie>> moviesWithinRating(@RequestParam Double rateMin, @RequestParam(required=false) Double rateMax) {
+    public ResponseEntity<List<Movie>> moviesWithinRating(@RequestParam Double rateMin, @RequestParam(required = false) Double rateMax) {
         return new ResponseEntity<>(movieService.getMoviesWithinRating(rateMin, rateMax), HttpStatus.OK);
     }
 
@@ -120,8 +121,7 @@ public class MovieController {
     public ResponseEntity<List<Movie>> findMoviesWithSpecificParameters(@RequestParam(defaultValue = "1900-01-01") String from_date,
                                                                         @RequestParam(required = false) String genre,
                                                                         @RequestParam(required = false) String rating,
-                                                                        @RequestParam(required = false) String time_available)
-    {
+                                                                        @RequestParam(required = false) String time_available) {
         LinkedHashMap<String, String> parameterMap = new LinkedHashMap<>();
         parameterMap.put("genre", genre);
         parameterMap.put("from_date", from_date);
@@ -129,12 +129,5 @@ public class MovieController {
         parameterMap.put("time_available", time_available);
         return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
-
-    //@GetMapping({"/health"})
-    //public ResponseEntity<Health> health() {
-    //  log.debug("##### CONTROLLER *** health  ######");
-    //return new ResponseEntity<>(movieService.getHealth(), HttpStatus.OK);
-    //return new ResponseEntity<>(Health.up().build(), HttpStatus.OK);
-    //}
 
 }

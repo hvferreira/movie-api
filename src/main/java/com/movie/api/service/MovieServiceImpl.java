@@ -153,10 +153,6 @@ public class MovieServiceImpl implements MovieService {
         return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_CAST);
     }
 
-    @Override
-    public Health getHealth() {
-        return Health.up().build();
-    }
 
     @Override
     public Movie getRandomMovie() {
