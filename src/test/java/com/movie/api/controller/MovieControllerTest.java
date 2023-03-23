@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.movie.api.model.Movie;
+import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
 import org.h2.command.dml.MergeUsing;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,12 +40,15 @@ class MovieControllerTest {
     @MockBean
     private MovieService movieService;
 
+    @MockBean
+    ActorService actorService;
+
     @Test
     @ResponseBody
     void movieByID() throws Exception {
-        //RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/20");
-        //MvcResult result = mockMvc.perform(request).andReturn();
-        //assertEquals(20, result.getResponse().getContentAsString());
+        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/20");
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertEquals(20, result.getResponse().getContentAsString());
 
 
        /* mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/20"))
@@ -51,17 +57,16 @@ class MovieControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("2003-03-07"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.overview").value("A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness."));
 */
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/20")).andExpect(status().isOk())
+       /* mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/20")).andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(20))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.original_title").value("My Life Without Me"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("2003-03-07"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.overview").value("A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness."));
+*/
 
-
-
-       /* mockMvc.perform(MockMvcRequestBuilders
+      /*  mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/movie/20")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -70,7 +75,7 @@ class MovieControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.original_title").value("My Life Without Me"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.release_date").value("2003-03-07"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.overview").value("A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness."));
-    */
+*/
     }
 
 
@@ -108,9 +113,11 @@ class MovieControllerTest {
         // this.mockMvc.perform(get("/api/v1/movie/health")).andDo(print()).andExpect(status().isOk())
         //       .andExpect(content().string(containsString(String.valueOf(Health.up().build()))));
 
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/health");
-        MvcResult result = mockMvc.perform(request).andReturn();
-        assertEquals("{\"status\":\"UP\"}", result.getResponse().getContentAsString());
+        //RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/movie/health");
+        //MvcResult result = mockMvc.perform(request).andReturn();
+        //assertEquals("{\"status\":\"UP\"}", result.getResponse().getStatus());
+        //assertEquals(Health.up().build(), result.getResponse().getContentAsString());
+        //assertEquals(200, result.getResponse().getStatus());
 
         //mockMvc.perform(get("/actuator/health/random"))
         //      .andExpect(status().isNotFound());
@@ -119,5 +126,11 @@ class MovieControllerTest {
         //      .andExpect(jsonPath("$.status").exists())
         //    .andExpect(jsonPath("$.details.strategy").value("thread-local"))
         //  .andExpect(jsonPath("$.details.chance").exists());
+
+
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/health"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("UP"));
     }
 }

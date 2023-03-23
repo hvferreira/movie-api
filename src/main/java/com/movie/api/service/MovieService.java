@@ -3,6 +3,7 @@ package com.movie.api.service;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.model.Actor;
+import org.springframework.boot.actuate.health.Health;
 
 import java.util.List;
 
@@ -20,7 +21,9 @@ public interface MovieService {
 
     List<Movie> getMoviesByActor(Long actorId);
 
-    public Movie getRandomMovie();
+    Movie getRandomMovie();
 
     String getDirectorByMovie(Long movieId);
+
+    Health getHealth();
 }
