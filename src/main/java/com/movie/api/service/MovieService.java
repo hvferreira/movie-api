@@ -24,5 +24,5 @@ public interface MovieService {
 
     String getDirectorByMovie(Long movieId);
 
-    List<Movie> getUpcomingMovies();
+    //List<Movie> getUpcomingMovies();
 }

@@ -140,11 +140,12 @@ public class MovieServiceImpl implements MovieService {
             }
         }
     }
-
+/*
     @Override
     public List<Movie> getUpcomingMovies(){
-        // https://api.themoviedb.org/3/movie/upcoming?api_key=513ec57012d6183655f825870b006514&language=en&region=GB
         String url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + Constants.ENDPOINT_SEARCH + "?api_key=" + apiKey;
         return ResponseHelper.returnMovieListFromUrl(url);
     }
+
+ */
 }
