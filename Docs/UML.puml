@@ -36,11 +36,17 @@ package controller <<Folder>> #lime{
     }
 
     class SearchController {
-
+    +SearchService searchService
+    + ResponseEntity<String> defaultMapping()
+    + ResponseEntity<List<Movie>> searchMovies(@PathVariable String searchTerm)
+    + ResponseEntity<List<Actor>> searchActor(@PathVariable String searchTerm)
+    + ResponseEntity<List<Actor>> searchKeyword(@PathVariable String searchTerm)
     }
-    class MovieReviewController {
 
-        }
+    class MovieReviewController {
+    + MovieReviewService reviewService
+    + ResponseEntity<List<MovieReviews>> getReviewsByMovieId(@PathVariable Long id)
+    }
 
 }
 
