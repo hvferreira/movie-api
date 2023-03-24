@@ -2,6 +2,7 @@ package com.movie.api.controller;
 
 import com.movie.api.model.Actor;
 import com.movie.api.model.Movie;
+import com.movie.api.model.Person;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,8 @@ class ActorControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/ActorController/testActorById.csv", numLinesToSkip = 1)
     void testActorById(String id, String name, String known_for_department, String birthday, String biography) throws Exception {
-        Actor actor = new Actor(Long.parseLong(id), name, known_for_department, birthday, biography, null);
+
+        Actor actor = new Actor(Long.parseLong(id), name, known_for_department, birthday, biography, "Test");
 
         when(actorService.getActor(actor.getId())).thenReturn(actor);
 
@@ -51,7 +53,8 @@ class ActorControllerTest {
 
     }
 
-    @Test
-    void popularActors() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/testFiles/Controller/ActorController/testPopularActors.csv", numLinesToSkip = 1)
+    void testPopularActors() {
     }
 }
