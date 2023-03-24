@@ -10,6 +10,7 @@ import lombok.*;
 @Getter
 public class Director extends Person{
 
+
     private String job;
 
 
