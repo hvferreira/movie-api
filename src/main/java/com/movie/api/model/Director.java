@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-//@Builder
-public class Director extends Person {
+public class Director extends Person{
+
 
     private String job;
 

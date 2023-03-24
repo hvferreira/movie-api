@@ -253,7 +253,25 @@ class MovieControllerTest {
 
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/findMovies?rating=9.0&genre=28&date_from=2000-10-02&time_available=90"))
-                .andExpect(MockMvcResultMatchers.status().isOk());/*
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
+    void testGetMoviesByActorId(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
+                                String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                                String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+
+        List<Movie> movies = new ArrayList<>();
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+
+        when(movieService.getMoviesByActor(31L)).thenReturn(movies);
+
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/movie/actor?actor1=31"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(id_0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].original_title").value(original_title_0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].release_date").value(release_date_0))
@@ -268,9 +286,8 @@ class MovieControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].original_title").value(original_title_2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].release_date").value(release_date_2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].overview").value(overview_2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].vote_average").value(Double.parseDouble(vote_average_2)));*/
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].vote_average").value(Double.parseDouble(vote_average_2)));
     }
-
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testGenrelist.csv", numLinesToSkip = 1)
     void testGenrelist(String id_0, String name_0, String id_1, String name_1, String id_2, String name_2, String id_3, String name_3) throws Exception {
@@ -360,13 +377,7 @@ class MovieControllerTest {
 
     }
 
-
-    @Test
-    void actorsByMovieId() {
-    }
-
     @Test
     void chooseRandomMovie() {
     }
-
 }
