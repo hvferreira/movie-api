@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.Constants;
 import com.movie.api.exception.MovieNotFoundException;
 import com.movie.api.exception.MyMovieErrorHandler;
+import com.movie.api.model.Director;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.model.Person;
@@ -70,16 +71,16 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public String getDirectorByMovie(Long movieId) {
+    public Director getDirectorByMovie(Long movieId) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new MyMovieErrorHandler());
         String url = apiUrl + Constants.ENDPOINT_MOVIE + "/" + movieId + "/" + Constants.ENDPOINT_CREDITS + "?api_key=" + apiKey;
         List response = (List) restTemplate.getForObject(url, LinkedHashMap.class).get(Constants.QUERY_CREW);
         assert response != null;
         for (Object value : response) {
-            Person person = mapper.convertValue(value, Person.class);
-            if (person.getJob() != null && person.getJob().equals(Constants.JOB_DIRECTING)) {
-                return person.getName();
+            Director director = mapper.convertValue(value, Director.class);
+            if (director.getJob() != null && director.getJob().equals(Constants.JOB_DIRECTING)) {
+                return director;
             }
         }
         return null;

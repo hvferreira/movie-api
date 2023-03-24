@@ -22,6 +22,6 @@ public class Person {
 
     private String biography;
 
-    private String job;
+
 
 }
