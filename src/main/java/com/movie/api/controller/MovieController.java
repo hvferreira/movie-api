@@ -2,6 +2,7 @@ package com.movie.api.controller;
 
 import com.movie.api.Constants;
 import com.movie.api.model.Actor;
+import com.movie.api.model.Director;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
 import com.movie.api.service.ActorService;
@@ -63,7 +64,7 @@ public class MovieController {
     }
 
     @GetMapping({"/{movieId}/director"})
-    public ResponseEntity<String> directorByMovie(@PathVariable Long movieId) {
+    public ResponseEntity<Director> directorByMovie(@PathVariable Long movieId) {
         return new ResponseEntity<>(movieService.getDirectorByMovie(movieId), HttpStatus.OK);
 
     }

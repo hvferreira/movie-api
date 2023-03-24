@@ -1,9 +1,8 @@
 package com.movie.api.service;
 
+import com.movie.api.model.Director;
 import com.movie.api.model.Genres;
 import com.movie.api.model.Movie;
-import com.movie.api.model.Actor;
-import org.springframework.boot.actuate.health.Health;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,7 +23,7 @@ public interface MovieService {
 
     Movie getRandomMovie();
 
-    String getDirectorByMovie(Long movieId);
+    Director getDirectorByMovie(Long movieId);
 
     List<Movie> getMoviesWithinRating(Double minRate, Double maxRate);
 

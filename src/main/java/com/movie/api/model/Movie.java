@@ -1,5 +1,6 @@
 package com.movie.api.model;
 
+import com.movie.api.service.MovieService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class Movie {
+
     @Id
     private Long id;
     private String original_title;
@@ -19,5 +21,6 @@ public class Movie {
     private String overview;
 
     private double vote_average;
+
 
 }
