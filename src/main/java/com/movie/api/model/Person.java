@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Person {
     @Id
     private Long id;
@@ -20,8 +21,5 @@ public class Person {
     private String birthday;
 
     private String biography;
-
-
-
 
 }
