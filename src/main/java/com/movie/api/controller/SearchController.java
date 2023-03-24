@@ -1,7 +1,5 @@
 package com.movie.api.controller;
-
-
-import com.movie.api.Constants;
+;
 import com.movie.api.model.Actor;
 import com.movie.api.model.Movie;
 import com.movie.api.service.SearchService;
@@ -37,11 +35,6 @@ public class SearchController {
 
     @GetMapping({"/actor/{searchTerm}"})
     public ResponseEntity<List<Actor>> searchActor(@PathVariable String searchTerm) {
-        return new ResponseEntity<List<Actor>>(searchService.searchActor(searchTerm), HttpStatus.OK);
-    }
-
-    @GetMapping({"/keyword/{searchTerm}"})
-    public ResponseEntity<List<Actor>> searchKeyword(@PathVariable String searchTerm) {
         return new ResponseEntity<List<Actor>>(searchService.searchActor(searchTerm), HttpStatus.OK);
     }
 
