@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,6 +21,5 @@ public class Person {
     private String birthday;
 
     private String biography;
-
 
 }
