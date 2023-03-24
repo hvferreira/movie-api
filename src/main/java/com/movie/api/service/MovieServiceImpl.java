@@ -79,9 +79,9 @@ public class MovieServiceImpl implements MovieService {
         assert response != null;
         for (Object value : response) {
             Director director = mapper.convertValue(value, Director.class);
-            // if (director.getJob() != null && director.getJob().equals(Constants.JOB_DIRECTING)) {
-            return director;
-            //}
+            if (director.getJob() != null && director.getJob().equals(Constants.JOB_DIRECTING)) {
+                return director;
+            }
         }
         return null;
     }
