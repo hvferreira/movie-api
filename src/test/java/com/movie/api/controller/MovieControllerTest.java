@@ -1,6 +1,7 @@
 package com.movie.api.controller;
 
 import static org.mockito.Mockito.when;
+
 import com.movie.api.Constants;
 import com.movie.api.model.Director;
 import com.movie.api.model.Genres;
@@ -34,9 +35,6 @@ class MovieControllerTest {
     @MockBean
     ActorService actorService;
 
-    @Test
-    void defaultMapping() {
-    }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
@@ -107,8 +105,8 @@ class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
     void testMoviesWithActors(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                          String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                          String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                              String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                              String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
@@ -140,8 +138,8 @@ class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
     void testPopularMovies(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                              String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                              String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                           String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                           String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
@@ -173,8 +171,8 @@ class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
     void testTopRatedMovies(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                           String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                           String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                            String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                            String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
@@ -206,15 +204,15 @@ class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
     void testMoviesWithinRating(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                            String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                            String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                                String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                                String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
         movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
         movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
 
-        when(movieService.getMoviesWithinRating(7.2,9.2)).thenReturn(movies);
+        when(movieService.getMoviesWithinRating(7.2, 9.2)).thenReturn(movies);
 
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/movie/rating?rateMin=7.2&rateMax=9.2"))
@@ -239,8 +237,8 @@ class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
     void findMoviesWithSpecificParameters(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                                String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                                String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                                          String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                                          String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
@@ -316,6 +314,7 @@ class MovieControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.vote_average").value(Double.parseDouble(vote_average)));
 
     }
+
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovie.csv", numLinesToSkip = 1)
     void testLatestMovie(String id, String original_title, String release_date, String overview, String vote_average) throws Exception {
@@ -365,6 +364,7 @@ class MovieControllerTest {
     @Test
     void actorsByMovieId() {
     }
+
     @Test
     void chooseRandomMovie() {
     }
