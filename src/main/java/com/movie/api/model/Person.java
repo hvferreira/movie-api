@@ -1,4 +1,5 @@
 package com.movie.api.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -9,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-
 public class Person {
     @Id
     private Long id;
