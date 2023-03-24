@@ -1,10 +1,10 @@
 package com.movie.api.controller;
 
 import com.movie.api.model.Actor;
-import com.movie.api.model.Movie;
 import com.movie.api.model.Person;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -37,8 +37,13 @@ class ActorControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/ActorController/testActorById.csv", numLinesToSkip = 1)
     void testActorById(String id, String name, String known_for_department, String birthday, String biography) throws Exception {
-
-        Actor actor = new Actor(Long.parseLong(id), name, known_for_department, birthday, biography, "Test");
+        
+        Actor actor = new Actor();
+        actor.setId(Long.parseLong(id));
+        actor.setName(name);
+        actor.setKnown_for_department(known_for_department);
+        actor.setBirthday(birthday);
+        actor.setBiography(biography);
 
         when(actorService.getActor(actor.getId())).thenReturn(actor);
 
