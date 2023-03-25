@@ -157,24 +157,29 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getRandomMovie() {
-        log.debug("##### ServiceImpl *** getRandomMovie ***  ######");
-
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new MyMovieErrorHandler());
         int count = 0;
         int maxTries = 5;
         while (true) {
             try {
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.setErrorHandler(new MyMovieErrorHandler());
                 Random rand = new Random();
                 long id = rand.nextInt(maximumMovieId) + 1;
                 String url = apiUrl + "movie/" + (id - count) + "?api_key=" + apiKey;
                 Movie movie = restTemplate.getForObject(url, Movie.class);
                 log.debug("Movie " + movie.getId() + "  " + movie.getOriginal_title() + " count = " + count);
-                return movie;
+                if (movie.getAdult() == false)
+                    return movie;
             } catch (MovieNotFoundException e) {
                 if (++count == maxTries) throw e;
             }
         }
     }
+    @Override
+    public List<Movie>   getUpcomingMovies(String region) {
+        String url = apiUrl + "/"+Constants.ENDPOINT_MOVIE+"/" + Constants.ENDPOINT_UPCOMING + "?api_key=" + apiKey + "&region=" + region;
+        return ResponseHelper.returnMovieListFromUrl(url, Constants.QUERY_RESULTS);
+    }
+
 
 }

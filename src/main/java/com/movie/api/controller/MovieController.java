@@ -131,4 +131,9 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMoviesWithParameters(parameterMap), HttpStatus.OK);
     }
 
+    @GetMapping({"/upcoming"})
+    public ResponseEntity<List<Movie>> getUpcomingMovies(@RequestParam(defaultValue = "GB") String region) {
+        return new ResponseEntity<>(movieService.getUpcomingMovies(region), HttpStatus.OK);
+    }
+
 }

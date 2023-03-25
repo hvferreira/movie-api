@@ -39,4 +39,5 @@ public class Constants {
 
     public static final String ENDPOINT_DISCOVER = "discover";
 
+    public static final String ENDPOINT_UPCOMING = "upcoming";
 }

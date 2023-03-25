@@ -30,4 +30,6 @@ public interface MovieService {
     List<Movie> getMoviesWithActors(Long actor1, Long actor2);
 
     List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap);
+
+    List<Movie>   getUpcomingMovies(String region);
 }
