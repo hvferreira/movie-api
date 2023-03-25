@@ -22,5 +22,9 @@ public class Movie {
 
     private double vote_average;
 
+    private boolean adult;
 
+    public boolean getAdult() {
+        return adult;
+    }
 }
