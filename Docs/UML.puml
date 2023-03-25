@@ -140,14 +140,19 @@ package exception <<Folder>> #brown{
     __
     + errorResponse(String message)
     ..
-    +void setMessage(String message)
-    +LocalDateTime getTimestamp()
-    +void setTimestamp(LocalDateTime timestamp)
+    + String getMessage()
+    + void setMessage(String message)
+    + LocalDateTime getTimestamp()
+    + void setTimestamp(LocalDateTime timestamp)
     }
     class MovieNotFoundException {
     + MovieNotFoundException()
 
     }
+    class MovieReviewException {
+        + MovieReviewException(String message)
+
+        }
     class MyMovieErrorHandler {
      + handleError(ClientHttpResponse response)
     }
@@ -193,6 +198,7 @@ MovieNotFoundException --> RuntimeException
 MyMovieErrorHandler --> DefaultResponseErrorHandler
 MyPersonErrorHandler --> DefaultResponseErrorHandler
 PersonNotFoundException --> RuntimeException
+MovieReviewException --> RuntimeException
 
 ApplicationExceptionHandler -- MovieNotFoundException
 ApplicationExceptionHandler -- PersonNotFoundException
