@@ -1,7 +1,7 @@
 package com.movie.api.model;
 
-import com.movie.api.service.MovieService;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
 @Entity
@@ -24,7 +24,7 @@ public class Movie {
 
     private boolean adult;
 
-    public boolean getAdult() {
-        return adult;
-    }
+    //public boolean getAdult() {
+    //  return adult;
+    //}
 }

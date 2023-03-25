@@ -5,14 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.awt.print.Book;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class MovieRepositoryTest {
-
 
     @Autowired
     private MovieRepository movieRepository;
@@ -38,6 +34,4 @@ class MovieRepositoryTest {
         assertThat(movieById).isNotNull();
 
     }
-
-
 }

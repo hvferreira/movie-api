@@ -11,7 +11,7 @@ public class MyMovieErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         HttpStatusCode statusCode = response.getStatusCode();
-        if(statusCode.equals(HttpStatus.NOT_FOUND)){
+        if (statusCode.equals(HttpStatus.NOT_FOUND)) {
             throw new MovieNotFoundException();
         }
     }

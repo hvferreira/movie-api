@@ -1,13 +1,8 @@
 package com.movie.api.controller;
 
-import com.movie.api.Constants;
 import com.movie.api.model.Actor;
-import com.movie.api.model.Movie;
-import com.movie.api.model.Person;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(ActorController.class)

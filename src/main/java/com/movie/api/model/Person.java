@@ -3,7 +3,6 @@ package com.movie.api.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data

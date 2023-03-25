@@ -1,6 +1,5 @@
 package com.movie.api.exception;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;

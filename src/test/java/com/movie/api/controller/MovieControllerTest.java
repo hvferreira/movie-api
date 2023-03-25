@@ -1,7 +1,5 @@
 package com.movie.api.controller;
 
-import static org.mockito.Mockito.when;
-
 import com.movie.api.Constants;
 import com.movie.api.model.Director;
 import com.movie.api.model.Genres;
@@ -9,7 +7,6 @@ import com.movie.api.model.Movie;
 import com.movie.api.service.ActorService;
 import com.movie.api.service.MovieService;
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-//@ExtendWith(StringEx.class)
+import static org.mockito.Mockito.when;
+
 @WebMvcTest(MovieController.class)
 class MovieControllerTest {
 
@@ -34,7 +32,6 @@ class MovieControllerTest {
 
     @MockBean
     ActorService actorService;
-
 
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
@@ -236,9 +233,9 @@ class MovieControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovies.csv", numLinesToSkip = 1)
-    void findMoviesWithSpecificParameters(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                                          String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                                          String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+    void testFindMoviesWithSpecificParameters(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
+                                              String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                                              String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
@@ -288,6 +285,7 @@ class MovieControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].overview").value(overview_2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].vote_average").value(Double.parseDouble(vote_average_2)));
     }
+
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testGenrelist.csv", numLinesToSkip = 1)
     void testGenrelist(String id_0, String name_0, String id_1, String name_1, String id_2, String name_2, String id_3, String name_3) throws Exception {
@@ -378,6 +376,6 @@ class MovieControllerTest {
     }
 
     @Test
-    void chooseRandomMovie() {
+    void testChooseRandomMovie() {
     }
 }

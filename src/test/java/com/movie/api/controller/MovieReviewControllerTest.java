@@ -1,43 +1,27 @@
 package com.movie.api.controller;
 
-
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.model.AuthorDetails;
 import com.movie.api.model.Movie;
 import com.movie.api.model.MovieReviews;
 import com.movie.api.service.MovieReviewService;
-import com.movie.api.service.MovieReviewServiceImpl;
 import com.movie.api.service.MovieService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
-
 
 @WebMvcTest(MovieReviewController.class)
 public class MovieReviewControllerTest {
@@ -55,11 +39,11 @@ public class MovieReviewControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/testMovieReviewsByMovieId.csv", numLinesToSkip = 1)
-    public void testGetReviewsByMovieId(long movieId,String id, String author, String authorDetailsName, String authorDetailsUsername,
+    public void testGetReviewsByMovieId(long movieId, String id, String author, String authorDetailsName, String authorDetailsUsername,
                                         String authorDetailsAvatarPath, String authorDetailsRating, String content,
-                                        String createdAt, String updatedAt, String url)throws Exception{
+                                        String createdAt, String updatedAt, String url) throws Exception {
 
-         content = content.replaceAll("\\*\\*", "");
+        content = content.replaceAll("\\*\\*", "");
         // Convert CSV data to expected entity
         AuthorDetails authorDetails = new AuthorDetails(authorDetailsName, authorDetailsUsername,
                 authorDetailsAvatarPath, Double.parseDouble(authorDetailsRating));
@@ -68,7 +52,6 @@ public class MovieReviewControllerTest {
         LocalDateTime updatedAtTime = LocalDateTime.parse(updatedAt, formatter);
         MovieReviews expectedReview = new MovieReviews(id, author, authorDetails, content.replaceAll("\\r|\\n", ""),
                 Double.parseDouble(authorDetailsRating), createdAtTime, updatedAtTime, url);
-
 
 
         Movie movie = new Movie(28L, "Test Movie", "2022-01-01", "This is a test movie.", 5.0);
