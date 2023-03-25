@@ -9,7 +9,6 @@ package controller <<Folder>> #lime{
     + ActorService actorService
     + ResponseEntity<Movie> defaultMapping()
     + ResponseEntity<List<Movie>> movieRecommendations(@PathVariable Long movieId)
-    + ResponseEntity<Movie> movieByID(@PathVariable Long movieId)
     + ResponseEntity<List<Movie>> movieSimilar(@PathVariable Long movieId)
     + ResponseEntity<List<Movie>> moviesWithActors(@RequestParam Long actor1, @RequestParam(required = false) Long actor2)
     + ResponseEntity<Director> directorByMovie(@PathVariable Long movieId)
@@ -25,7 +24,7 @@ package controller <<Folder>> #lime{
                                                                             @RequestParam(required = false) String genre,
                                                                             @RequestParam(required = false) String rating,
                                                                             @RequestParam(required = false) String time_available)
-
+    + ResponseEntity<List<Movie>> getUpcomingMovies(@RequestParam(defaultValue = "GB") String region)
     }
 
     class ActorController{
@@ -40,7 +39,6 @@ package controller <<Folder>> #lime{
     + ResponseEntity<String> defaultMapping()
     + ResponseEntity<List<Movie>> searchMovies(@PathVariable String searchTerm)
     + ResponseEntity<List<Actor>> searchActor(@PathVariable String searchTerm)
-    + ResponseEntity<List<Actor>> searchKeyword(@PathVariable String searchTerm)
     }
 
     class MovieReviewController {
