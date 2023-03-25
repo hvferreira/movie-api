@@ -51,29 +51,59 @@ package controller <<Folder>> #lime{
 
 package model <<Folder>> #burlywood{
 
-  class Movie{
-  - Long id;
-  - String original_title;
-  - String release_date;
-  - String overview;
-    }
-
-  class Actor{
+    class Actor{
 
   }
-  class Person{
-  - Long id;
-  - String name;
-  - String known_for_department;
-  - String birthday;
-  - String biography;
-        }
+
+  class AuthorDetails {
+    - String name;
+    - String username;
+    - String avatar_path;
+    - Double rating;
+  }
+
+
+  class Director{
+  - String job
+  }
 
   class Genres{
   - Long id;
   - String name;
+  }
 
-     }
+  class Movie{
+    - Long id;
+    - String original_title;
+    - String release_date;
+    - String overview;
+    - double vote_average;
+    - boolean adult;
+      }
+
+  class MovieReviewResponse {
+  - List<MovieReviews> results;
+  + List<MovieReviews> getResults()
+  }
+
+   class MovieReviews {
+   - String id
+   - String author
+   - AuthorDetails author_details
+   - String content
+   - double rating
+   - LocalDateTime created_at
+   - LocalDateTime updated_at
+   - String url
+   }
+
+  class Person{
+    - Long id;
+    - String name;
+    - String known_for_department;
+    - String birthday;
+    - String biography;
+    }
 }
 
 package repository <<Folder>> #violet {
@@ -81,10 +111,17 @@ package repository <<Folder>> #violet {
   interface MovieRepository {
 
   }
-
 }
 
 package service <<Folder>> #red{
+
+     interface ActorService{
+      + Actor getActor(Long actorId)
+      + List<Actor> getActorsByMovieId(Long movieId)
+      + List<Actor> getPopularActors()
+      }
+
+
 
   interface MovieService{
   + Movie getMovieById(Long movieId)
@@ -107,11 +144,7 @@ package service <<Folder>> #red{
   - List<Movie> returnMovieListFromUrl(String url)
   }
 
-  interface ActorService{
-  + Actor getActor(Long actorId)
-  + List<Actor> getActorsByMovieId(Long movieId)
-  + List<Actor> getPopularActors()
-  }
+
 
   class ActorServiceImpl{
   - String apiKey
@@ -191,7 +224,7 @@ ActorController <--> ActorServiceImpl
 ActorServiceImpl -- ActorService
 Actor -up-> Person
 Genres -- MovieServiceImpl
-
+Director --> Person
 'exception
 ActorNotFoundException --> RuntimeException
 MovieNotFoundException --> RuntimeException
