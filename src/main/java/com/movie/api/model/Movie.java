@@ -24,7 +24,7 @@ public class Movie {
 
     private boolean adult;
 
-    //public boolean getAdult() {
-    //  return adult;
-    //}
+    public boolean getAdult() {
+        return adult;
+    }
 }

@@ -115,45 +115,89 @@ package repository <<Folder>> #violet {
 
 package service <<Folder>> #red{
 
-     interface ActorService{
-      + Actor getActor(Long actorId)
-      + List<Actor> getActorsByMovieId(Long movieId)
-      + List<Actor> getPopularActors()
-      }
-
-
-
-  interface MovieService{
-  + Movie getMovieById(Long movieId)
-  + List<Movie> getMovies(String type)
-  + Movie getLatestMovie()
-  + List<Genres> getGenreList()
-  + List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations)
-  + List<Movie> getMoviesByActor(Long actorId)
-  }
-  class MovieServiceImpl{
-  - String apiKey
-  - String apiUrl;
-  + MovieRepository movieRepository
-  + Movie getMovieById(Long movieId)
-  + List<Movie> getMovies(String type)
-  + Movie getLatestMovie()
-  + List<Genres> getGenreList()
-  + List<Movie> getMovieRecommendationsSimilar(Long movieId, String type)
-  + List<Movie> getMoviesByActor(Long actorId)
-  - List<Movie> returnMovieListFromUrl(String url)
-  }
-
-
+   interface ActorService{
+   + Actor getActor(Long actorId)
+   + List<Actor> getActorsByMovieId(Long movieId)
+   + List<Actor> getPopularActors()
+   }
 
   class ActorServiceImpl{
   - String apiKey
   - String apiUrl
+  - final ObjectMapper mapper
   + Actor getActor(Long actorId)
   + List<Actor> getActorsByMovieId(Long movieId)
   + List<Actor> getPopularActors()
-  - List<Actor> returnActorListFromUrl(String url, String type)
   }
+
+  interface MovieReviewService {
+  + List<MovieReviews> getReviewsByMovieId(Long movieId)
+  }
+
+  class MovieReviewServiceImpl{
+  - String apiKey;
+  - String apiUrl
+  - final RestTemplate restTemplate;
+  - final Logger logger
+  + MovieReviewServiceImpl(RestTemplateBuilder restTemplateBuilder)
+  + List<MovieReviews> getReviewsByMovieId(Long movieId)
+  }
+
+
+  interface MovieService{
+  Movie getMovieById(Long movieId)
+  List<Movie> getMovies(String type)
+  Movie getLatestMovie()
+  List<Genres> getGenreList()
+  List<Movie> getMovieRecommendationsSimilar(Long movieId, String recommendations)
+  List<Movie> getMoviesByActor(Long actorId)
+  Movie getRandomMovie()
+  Director getDirectorByMovie(Long movieId)
+  List<Movie> getMoviesWithinRating(Double minRate, Double maxRate)
+  List<Movie> getMoviesWithActors(Long actor1, Long actor2)
+  List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap)
+  List<Movie>   getUpcomingMovies(String region)
+  }
+
+  class MovieServiceImpl{
+  - static final int MAX_REQUEST
+  - static int maximumMovieId
+  + MovieRepository movieRepository
+  - String apiKey
+  - String apiUrl
+  - final ObjectMapper mapper
+  + Movie getMovieById(Long movieId)
+  + List<Movie> getMovies(String type)
+  + Movie getLatestMovie()
+  + Director getDirectorByMovie(Long movieId)
+  + List<Movie> getMoviesWithinRating(Double minRate, Double maxRate)
+  + List<Movie> getMoviesWithActors(Long actor1, Long actor2)
+  + List<Movie> getMoviesWithParameters(LinkedHashMap<String, String> parameterMap)
+  + List<Genres> getGenreList()
+  + List<Movie> getMovieRecommendationsSimilar(Long movieId, String type)
+  + List<Movie> getMoviesByActor(Long actorId)
+  + Movie getRandomMovie()
+  + List<Movie>   getUpcomingMovies(String region)
+  }
+
+  class ResponseHelper {
+  - static final ObjectMapper mapper
+  + static List<Movie> returnMovieListFromUrl(String url, String type)
+  + static List<Actor> returnActorListFromUrl(String url, String type)
+  }
+
+  interface SearchService {
+  + List<Movie> searchMovies(String searchTerm)
+  + List<Actor> searchActor(String searchTerm)
+ }
+
+class SearchServiceImpl {
+ - String apiKey
+ - String apiUrl
+ - final ObjectMapper mapper
+ + List<Movie> searchMovies(String searchTerm)
+ + List<Actor> searchActor(String searchTerm)
+}
 
 
 
@@ -164,7 +208,7 @@ Interface CrudRepository<movie,ID>{
 
 class ExternalMovieAPI{
 
-    }
+}
 
 package exception <<Folder>> #brown{
     class ErrorResponse{
@@ -212,19 +256,56 @@ package exception <<Folder>> #brown{
 
     }
 
+    class Constants {
+    public static final String KNOWN_FOR_ACTING = "Acting"
+        + static final String KNOWN_FOR_DIRECTING = "Directing"
+        + static final String KNOWN_FOR_WRITING = "Writing"
+        + static final String JOB_DIRECTING = "Director"
+        + static final String JOB_WRITING = "Writer"
+        + static final String JOB_PRODUCING = "Producer"
+        + static final String QUERY_CAST= "cast"
+        + static final String QUERY_RESULTS= "results"
+        + static final String QUERY_CREW= "crew"
+        + static final String QUERY_GENRE= "genres"
+        + static final String QUERY_ADULT = "&include_adult=false"
+        + static final String ENDPOINT_PERSON = "person"
+        + static final String ENDPOINT_MOVIE = "movie"
+        + static final String ENDPOINT_POPULAR = "popular"
+        + static final String ENDPOINT_CREDITS = "credits"
+        + static final String ENDPOINT_CREDITS_PERSON = "movie_credits"
+        + static final String ENDPOINT_GENRE = "genre"
+        + static final String ENDPOINT_TOP_RATED = "top_rated"
+        + static final String ENDPOINT_RECOMMENDATIONS = "recommendations"
+        + static final String ENDPOINT_SIMILAR = "similar"
+        + static final String ENDPOINT_LATEST = "latest"
+        + static final String ENDPOINT_SEARCH = "search"
+        + static final String ENDPOINT_DISCOVER = "discover"
+        + static final String ENDPOINT_UPCOMING = "upcoming"
+    }
+
+
+
+
+
+
 MovieController <--> MovieServiceImpl
+SearchController <-->SearchServiceImpl
+MovieReviewController <--> MovieReviewServiceImpl
 MovieRepository --> CrudRepository
 
 MovieServiceImpl -- MovieService
 MovieServiceImpl -- MovieRepository
 MovieRepository -- Movie
 MovieServiceImpl -- ExternalMovieAPI
+MovieReviewServiceImpl -- MovieReviewService
+SearchServiceImpl -- SearchService
+
 
 ActorController <--> ActorServiceImpl
 ActorServiceImpl -- ActorService
 Actor -up-> Person
 Genres -- MovieServiceImpl
-Director --> Person
+Director -up-> Person
 'exception
 ActorNotFoundException --> RuntimeException
 MovieNotFoundException --> RuntimeException
