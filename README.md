@@ -38,7 +38,7 @@ This project was developed using Java 17.
 
 ## SSD
 
-![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/SSD.png)
+![This is an image](https://github.com/hvferreira/movie-api/blob/master/Docs/SSD.png)
 
 ## UML
 
