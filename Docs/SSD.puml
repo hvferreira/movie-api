@@ -209,7 +209,8 @@ group controller
 User <[#blue]- API: ( /search/actor/{searchTerm}) Response(<List<Actor>)
 
 end
-
+User -[#red]> API: ( /actuator/health) Request(searchTerm)
+User <[#blue]- API: ( /actuator/health) Response(Status:UP)
 
 
 
