@@ -12,6 +12,7 @@ participant API #orange
 participant MovieAPI #cyan
 
 'group service
+'Start Movie
 group controller
 User -[#red]> API: (/movie/) Request
 end
@@ -124,69 +125,90 @@ end
 
 group controller
 User <[#blue]- API: ( /movie/rating) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User -[#red]> API: ( /movie/random) Request*(
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( getRandomMovie()) Request
+API <[#blue]- MovieAPI: ( getRandomMovie()) Response (Movie))
 end
 
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /movie/random) Response(Movie)
+User -[#red]> API: ( /movie/findMovies) Request(from_date,genre,rating,time_available)
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( getMoviesWithParameters(parameterMap)) Request
+API <[#blue]- MovieAPI: ( getMoviesWithParameters(parameterMap)) Response (List<Movie>))
 end
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /movie/movie/findMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/upcoming) Request(region)
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( getUpcomingMovies(region)) Request
+API <[#blue]- MovieAPI: ( getUpcomingMovies(region)) Response (List<Movie>))
+end
+
+
+group controller
+User <[#blue]- API: ( /movie/upcoming) Response(List<Movie>)
+'End Movie
+'Start Actor
+User -[#red]> API: ( /actor/{actorId}) Request(actorId)
+end
+group service
+API -[#red]> MovieAPI: ( getActor(actorId)) Request
+API <[#blue]- MovieAPI: ( getActor(actorId)) Response (Actor)
 end
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /actor/{actorId}) Response(Actor)
+User -[#red]> API: ( /actor/popular) Request()
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( getPopularActors()) Request
+API <[#blue]- MovieAPI: ( getPopularActors()) Response (List<Actor>))
 end
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /actor/popular) Response(List<Actor>)
+'End Actor
+
+'Start MovieReviewController
+User -[#red]> API: ( /movie/{id}/reviews) Request(id)
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( getReviewsByMovieId(id)) Request
+API <[#blue]- MovieAPI: ( getReviewsByMovieId(id)) Response (List<MovieReviews>)
 end
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /movie/{id}/reviews) Response(List<MovieReviews>)
+'End MovieReviewController
+
+'Start Search
+User -[#red]> API: ( /search/movie/{searchTerm}) Request(searchTerm)
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( searchMovies(searchTerm)) Request
+API <[#blue]- MovieAPI: ( searchMovies(searchTerm)) Response (List<Movie>))
 end
 
 group controller
-User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
-User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+User <[#blue]- API: ( /search/movie/{searchTerm}) Response(List<Movie>)
+User -[#red]> API: ( /search/actor/{searchTerm}) Request(searchTerm)
 end
 group service
-API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
-API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+API -[#red]> MovieAPI: ( searchActor(searchTerm)) Request
+API <[#blue]- MovieAPI: ( searchActor(searchTerm)) Response (<List<Actor>)
 end
 
+group controller
+User <[#blue]- API: ( /search/actor/{searchTerm}) Response(<List<Actor>)
 
+end
 
 
 
