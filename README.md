@@ -14,6 +14,9 @@ This project was developed using Java 17.
 + Create API endpoints with the appropriate HTTP verbs
 + API must call the public API and use the returned data to solve the problem
 + API base URL and endpoints must be appropriately named
++ Good separation of concerns, clean and readable
++ Good coverage of tests
++ Applied error and exception handling considerations in API design
 + Include a /health endpoint to give the health of the application
 
 ---
