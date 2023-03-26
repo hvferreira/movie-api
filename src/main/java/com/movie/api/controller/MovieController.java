@@ -97,7 +97,7 @@ public class MovieController {
 
     }
 
-    @GetMapping({"{movieId}/actors"})
+    @GetMapping({"/{movieId}/actors"})
     public ResponseEntity<List<Actor>> actorsByMovieId(@PathVariable Long movieId) {
         return new ResponseEntity<>(actorService.getActorsByMovieId(movieId), HttpStatus.OK);
     }

@@ -9,149 +9,186 @@ actor User
 
 'define colors
 participant API #orange
-participant MoviewAPI #cyan
+participant MovieAPI #cyan
 
 'group service
 group controller
-User -[#red]> API: (/) Request
-    end
-    group service
-API -[#red]> MoviewAPI: ( getLatestMovie()) Request
-API <[#blue]- MoviewAPI: ( getLatestMovie()) Response (lastMovie))
+User -[#red]> API: (/movie/) Request
 end
- group controller
-User <[#blue]- API: (/) Response (lastMovie)
+group service
+API -[#red]> MovieAPI: ( getLatestMovie()) Request
+API <[#blue]- MovieAPI: ( getLatestMovie()) Response (lastMovie))
+end
+group controller
+User <[#blue]- API: (/movie/) Response (lastMovie)
 
-User -[#red]> API: ( /health) Request
- end
-User <[#blue]- API: ( /health) Response(Status UP)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request(movieId)
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
 
-User -[#red]> API: ( /allmovies) Request
-User <[#blue]- API: ( /allmovies) Response
+group controller
+User <[#blue]- API: ( /movie/{movieId}/recommendations) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/similar) Request(movieId)
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_SIMILAR) Response (List<Movie>))
+end
 
-User -[#red]> API: ( /movie) Request
-User <[#blue]- API: ( /movie) Response
+group controller
+User <[#blue]- API: ( /movie/{movieId}/similar) Response(List<Movie>)
+User -[#red]> API: ( /movie/actor) Request(actor1,actor2)
+end
+group service
+API -[#red]> MovieAPI: ( movieService.getMoviesWithActors(actor1, actor2)) Request
+API <[#blue]- MovieAPI: ( movieService.getMoviesWithActors(actor1, actor2)) Response (List<Movie>))
+end
 
-User -[#red]> API: ( /randomMovie) Request
-User <[#blue]- API: ( /randomMovie) Response
+group controller
+User <[#blue]- API: ( /movie/actor) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/director) Request(movieId)
+end
+group service
+API -[#red]> MovieAPI: ( getDirectorByMovie(movieId)) Request
+API <[#blue]- MovieAPI: ( getDirectorByMovie(movieId)) Response (Director)
+end
 
-User -[#red]> API: ( /byyear) Request
-User <[#blue]- API: ( byyear) Response
-
-User -[#red]> API: ( bycategory) Request
-User <[#blue]- API: ( bycategory) Response
-
-User -[#red]> API: ( /byrating) Request
-User <[#blue]- API: ( /byrating) Response
-
-User -[#red]> API: ( /byactor) Request
-User <[#blue]- API: ( /byactor) Response
-
-User -[#red]> API: ( /randommoviebycategory) Request
-User <[#blue]- API: ( /randommoviebycategory) Response
-
-User -[#red]> API: ( /randommoviebyyear) Request
-User <[#blue]- API: ( /randommoviebyyear)
-
-User -[#red]> API: ( /randommoviebyyear&category) Request
-User <[#blue]- API: ( /randommoviebyyear&category) Response
-
-User -[#red]> API: ( /randommoviebycategory) Request
-User <[#blue]- API: ( /randommoviebycategory) Response
-
-User -[#red]> API: ( /randommoviebyyear) Request
-User <[#blue]- API: ( /randommoviebyyear) Response
-
-User -[#red]> API: ( /randommoviebyyear&category) Request
-User <[#blue]- API: ( /randommoviebyyear&category) Response
-
-User -[#red]> API: ( /moviebywheather) Request
-User <[#blue]- API: ( /moviebywheather) Response
-
-    'end
-
-'group service
-participant MoviewAPI #cyan
-
-API -[#red]> MoviewAPI: ( getAllMovies) Request
-API <[#blue]- MoviewAPI: ( getAllMovies) Response (allmovies))
-
-API -[#red]> MoviewAPI:  ( getMovie) Request
-API <[#blue]- MoviewAPI: ( getMovie) Response (movie)
-
-API -[#red]> MoviewAPI: ( getRandomMovie) Request
-API <[#blue]- MoviewAPI: ( getRandomMovie) Response (movie)
-
-API -[#red]> MoviewAPI: ( getByYear) Request
-API <[#blue]- MoviewAPI: ( getByYear) Response (allMoviesThatYear)
-
-API -[#red]> MoviewAPI: ( getByCategory) Request
-API <[#blue]- MoviewAPI: ( getByCategory) Response (allMoviesThatCategory)
-
-API -[#red]> MoviewAPI: ( getByRating) Request
-API <[#blue]- MoviewAPI: ( getByRating) Response (allMovieSortByRating)
-
-API -[#red]> MoviewAPI: ( getByActor) Request
-API <[#blue]- MoviewAPI: ( getByActor) Response (allMoviesWithThatActor)
+group controller
+User <[#blue]- API: ( /movie/{movieId}/director) Response(Director)
+User -[#red]> API: ( /movie/genrelist) Request()
+end
+group service
+API -[#red]> MovieAPI: ( getGenreList() ) Request
+API <[#blue]- MovieAPI: ( getGenreList() ) Response (List<Genres>))
+end
 
 
-API -[#red]> MoviewAPI: ( getRandomMovieByCategory) Request
-API <[#blue]- MoviewAPI: ( getRandomMovieByCategory) Response (movie)
-
-API -[#red]> MoviewAPI: ( getRandomMovieByYear) Request
-API <[#blue]- MoviewAPI: ( getRandomMovieByYear) Response (movie)
-
-API -[#red]> MoviewAPI: ( getRandomMovieByYear&Category) Request
-API <[#blue]- MoviewAPI: ( getRandomMovieByYear&Category) Response (movie)
-
-API -[#red]> MoviewAPI: ( getRandomMovieByCategory) Request
-API <[#blue]- MoviewAPI: ( getRandomMovieByCategory) Response (movie)
-
-API -[#red]> MoviewAPI: ( getRandomMovieByYear) Request
-API <[#blue]- MoviewAPI: ( getRandomMovieByYear) Response (movie)
-
-API -[#red]> MoviewAPI: ( /getMovieByWHEATHER) Request
-API <[#blue]- MoviewAPI: ( /getMovieByWHEATHER) Response (movie)
-
-    'end
+group controller
+User <[#blue]- API: ( /movie/genrelist) Response(List<Genres>)
+User -[#red]> API: ( /{movieId}) Request(movieId)
+end
+group service
+API -[#red]> MovieAPI: ( getMovieById(movieId)) Request(movieId)
+API <[#blue]- MovieAPI: ( getMovieById(movieId)) Response (Movie))
+end
 
 
-'group repository
-'end
+group controller
+User <[#blue]- API: ( /movie/{movieId}) Response(Movie)
+User -[#red]> API: ( /movie/popularMovies) Request()
+end
+group service
+API -[#red]> MovieAPI: ( getMovies(Constants.ENDPOINT_POPULAR)) Request
+API <[#blue]- MovieAPI: ( getMovies(Constants.ENDPOINT_POPULAR)) Response (List<Movie>))
+end
 
-'group model
-'end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/topRatedMovies) Request()
+end
+group service
+API -[#red]> MovieAPI: ( getMovies(Constants.ENDPOINT_TOP_RATED)) Request
+API <[#blue]- MovieAPI: ( getMovies(Constants.ENDPOINT_TOP_RATED)) Response (List<Movie>))
+end
 
 
-participant WeatherAPI #PHYSICAL
-'API -[#red]> WeatherAPI: (wheatherbylocation)Request
-'API <-[#blue] WeatherAPI: (wheatherbylocation)response
+group controller
+User <[#blue]- API: ( movie/topRatedMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/latestMovie) Request()
+end
+group service
+API -[#red]> MovieAPI: ( getLatestMovie()) Request
+API <[#blue]- MovieAPI: ( getLatestMovie()) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie/latestMovie) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/actors) Request(movieId)
+end
+group service
+API -[#red]> MovieAPI: ( getActorsByMovieId(movieId)) Request
+API <[#blue]- MovieAPI: ( getActorsByMovieId(movieId)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie/{movieId}/actors) Response(List<Movie>)
+User -[#red]> API: ( /movie/rating) Request(rateMin,rateMax)
+end
+group service
+API -[#red]> MovieAPI: ( getMoviesWithinRating(rateMin, rateMax)) Request
+API <[#blue]- MovieAPI: ( getMoviesWithinRating(rateMin, rateMax)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie/rating) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
+
+group controller
+User <[#blue]- API: ( /movie//popularMovies) Response(List<Movie>)
+User -[#red]> API: ( /movie/{movieId}/recommendations) Request
+end
+group service
+API -[#red]> MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Request
+API <[#blue]- MovieAPI: ( getMovieRecommendationsSimilar(movieId, Constants.ENDPOINT_RECOMMENDATIONS)) Response (List<Movie>))
+end
 
 
 
 
 
-
-'participant FoodDrinkAPI #violet
-'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
-'API -[#red]> FoodDrinkAPI: (food/drinkByMovie) Request
-'API -[#red]> FoodDrinkAPI: (food/drinkByhourOFday) Request
-'API -[#red]> FoodDrinkAPI: (food/byWheather) Request
-
-'User <[#blue]- API: ( /" ") Response(movie & wheather & Drink or food recommendation)
 
 @enduml
