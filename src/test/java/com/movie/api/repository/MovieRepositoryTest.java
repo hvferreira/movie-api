@@ -16,7 +16,7 @@ class MovieRepositoryTest {
     @Test
     public void testFindAllMovies() {
 
-        Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07", "A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness.", 5.879);
+        Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07", "A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness.", 5.879, false);
         movieRepository.save(movie);
 
         Iterable<Movie> movies = movieRepository.findAll();
@@ -27,7 +27,7 @@ class MovieRepositoryTest {
     @Test
     public void testCreatesAndFindMovieById() {
 
-        Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07", "A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness.", 5.879);
+        Movie movie = new Movie(20L, "My Life Without Me", "2003-03-07", "A fatally ill mother with only two months to live creates a list of things she wants to do before she dies without telling her family of her illness.", 5.879, false);
         movieRepository.save(movie);
 
         var movieById = movieRepository.findById(movie.getId());

@@ -54,7 +54,7 @@ public class MovieReviewControllerTest {
                 Double.parseDouble(authorDetailsRating), createdAtTime, updatedAtTime, url);
 
 
-        Movie movie = new Movie(28L, "Test Movie", "2022-01-01", "This is a test movie.", 5.0);
+        Movie movie = new Movie(28L, "Test Movie", "2022-01-01", "This is a test movie.", 5.0, false);
 
         when(movieService.getMovieById(movie.getId())).thenReturn(movie);
 

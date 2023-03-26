@@ -28,16 +28,17 @@ public class SearchControllerTest {
 
     @MockBean
     ActorService actorService;
+
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/SearchController/testMovies.csv", numLinesToSkip = 1)
     void testMovieSearch(String id_0, String original_title_0, String release_date_0, String overview_0, String vote_average_0,
-                                  String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
-                                  String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
+                         String id_1, String original_title_1, String release_date_1, String overview_1, String vote_average_1,
+                         String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(searchService.searchMovies("lord of the rings")).thenReturn(movies);
 
@@ -64,7 +65,7 @@ public class SearchControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/testFiles/Controller/SearchController/testActors.csv", numLinesToSkip = 1)
     void testActorSearch(String id_0, String name_0, String known_for_department_0, String birthday_0, String biography_0,
-                         String id_1, String name_1, String known_for_department_1, String birthday_1, String biography_1)throws Exception {
+                         String id_1, String name_1, String known_for_department_1, String birthday_1, String biography_1) throws Exception {
 
         List<Actor> actors = new ArrayList<>();
         Actor actor1 = new Actor();

@@ -40,9 +40,9 @@ class MovieControllerTest {
                                   String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMovieRecommendationsSimilar(20L, Constants.ENDPOINT_RECOMMENDATIONS)).thenReturn(movies);
 
@@ -73,9 +73,9 @@ class MovieControllerTest {
                           String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMovieRecommendationsSimilar(20L, Constants.ENDPOINT_SIMILAR)).thenReturn(movies);
 
@@ -106,9 +106,9 @@ class MovieControllerTest {
                               String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMoviesWithActors(31L, 12898L)).thenReturn(movies);
 
@@ -139,9 +139,9 @@ class MovieControllerTest {
                            String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMovies(Constants.ENDPOINT_POPULAR)).thenReturn(movies);
 
@@ -172,9 +172,9 @@ class MovieControllerTest {
                             String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMovies(Constants.ENDPOINT_TOP_RATED)).thenReturn(movies);
 
@@ -205,9 +205,9 @@ class MovieControllerTest {
                                 String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMoviesWithinRating(7.2, 9.2)).thenReturn(movies);
 
@@ -238,9 +238,9 @@ class MovieControllerTest {
                                               String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
         LinkedHashMap<String, String> parameterMap = new LinkedHashMap<>();
         parameterMap.put("genre", "28");
         parameterMap.put("from_date", "2000-10-02");
@@ -260,9 +260,9 @@ class MovieControllerTest {
                                 String id_2, String original_title_2, String release_date_2, String overview_2, String vote_average_2) throws Exception {
 
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0)));
-        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1)));
-        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2)));
+        movies.add(new Movie(Long.parseLong(id_0), original_title_0, release_date_0, overview_0, Double.parseDouble(vote_average_0), false));
+        movies.add(new Movie(Long.parseLong(id_1), original_title_1, release_date_1, overview_1, Double.parseDouble(vote_average_1), false));
+        movies.add(new Movie(Long.parseLong(id_2), original_title_2, release_date_2, overview_2, Double.parseDouble(vote_average_2), false));
 
         when(movieService.getMoviesByActor(31L)).thenReturn(movies);
 
@@ -315,7 +315,7 @@ class MovieControllerTest {
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovie.csv", numLinesToSkip = 1)
     void testMovieByID(String id, String original_title, String release_date, String overview, String vote_average) throws Exception {
 
-        Movie movie = new Movie(Long.parseLong(id), original_title, release_date, overview, Double.parseDouble(vote_average));
+        Movie movie = new Movie(Long.parseLong(id), original_title, release_date, overview, Double.parseDouble(vote_average), false);
 
         when(movieService.getMovieById(movie.getId())).thenReturn(movie);
 
@@ -334,7 +334,7 @@ class MovieControllerTest {
     @CsvFileSource(resources = "/testFiles/Controller/MovieController/testMovie.csv", numLinesToSkip = 1)
     void testLatestMovie(String id, String original_title, String release_date, String overview, String vote_average) throws Exception {
 
-        Movie movie = new Movie(Long.parseLong(id), original_title, release_date, overview, Double.parseDouble(vote_average));
+        Movie movie = new Movie(Long.parseLong(id), original_title, release_date, overview, Double.parseDouble(vote_average), false);
 
         when(movieService.getLatestMovie()).thenReturn(movie);
 
