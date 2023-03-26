@@ -36,10 +36,6 @@ This project was developed using Java 17.
 
 ---
 
-## MVC
-
-![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/MVC.png)
-
 ## SSD
 
 ![This is an image](https://github.com/hvferreira/movie-api/tree/master/Docs/SSD.png)
@@ -51,11 +47,12 @@ This project was developed using Java 17.
 ---
 
 ## Run Application
+
 + To run this application - run from "ApiApplication.java"
 + Access the API from software such as Postman (or browser)
 + Runs from http://localhost:8081/api/v1/
 + For endpoints and usage, see below:
-  
+
 ## Movie
 
 **/movie/{movieId}** <br />
@@ -75,10 +72,9 @@ Get a list of similar movies based on the movie with the given id <br />
 
 **/movie/actor?actor1={actor1Id}&actor2={actor2Id}** <br />
 *Returns: list of movie objects* <br />
-Get a list of movies that the actors with the given ids has appeared it.  Actor 2 is optional. <br />
+Get a list of movies that the actors with the given ids has appeared it. Actor 2 is optional. <br />
 *E.g. /movie/actor?actor1=31&actor2=12898 <br />
 /movie/actor?actor1=31*
-
 
 **/movie/{movieId}/director**<br />
 *Returns: a director object*<br />
@@ -100,7 +96,6 @@ Get all the currently popular movies<br />
 Get all the top rated movies<br />
 *E.g. /movie/topRatedMovies*<br />
 
-
 **/movie/latestMovie**<br />
 *Returns: a movie object*<br />
 Get the latest movie that has been added to the external api<br />
@@ -114,6 +109,7 @@ Get the actors that appear in the movie with the given id<br />
 **/movie/findMovies**<br />
 *Returns: a list of movie objects*<br />
 Get movies using certain parameters (ALL optional)<br />
+
 + Rating - gte<br />
 + Release from date (default 1900-01-01 in YYYY-MM-DD format) - gte<br />
 + Genre<br />
@@ -121,11 +117,21 @@ Get movies using certain parameters (ALL optional)<br />
 
 *E.g. /movie/findMovies?rating=9.0&genre=28&date_from=2000-10-02&time_available=90*
 
-
 **/movie/random** <br />
 *Returns: a random movie*<br />
 Get a completely random movie<br />
 *E.g. movie/random*
+
+**movie/rating?rateMin={rateMin}&rateMax={rateMax}** <br />
+*Returns a list of movie objects* <br />
+Get a list of movie objects between a specific minimum rating and maximum rating. The maximum rating is optional <br />
+*E.g. movie/rating?rateMin=7.2&rateMax=9.2 <br />
+/rating?rateMin=9.0*
+
+**/movie/upcoming** <br />
+*Returns: list of movie objects*<br />
+Get a list of movies <br />
+*E.g. /movie/upcoming*
 
 ## Actor
 
@@ -139,7 +145,6 @@ Get the actor by the given id<br />
 Get the current popular actors <br />
 *E.g. /actor/popular*
 
-
 ## Search
 
 **/search/movie/{searchTerm}** <br />
@@ -152,34 +157,30 @@ Get a list of movies based on a search term <br />
 Get a list of actors based on a search term<br />
 *E.g. /search/actor/”tom”*
 
-
-## Rating
-
-**movie/rating?rateMin={rateMin}&rateMax={rateMax}** <br />
-*Returns a list of movie objects* <br />
-Get a list of movie objects between a specific minimum rating and maximum rating.  The maximum rating is optional <br />
-*E.g. movie/rating?rateMin=7.2&rateMax=9.2 <br />
-/rating?rateMin=9.0*
-
-
 ## Reviews
 
 **/movie/{movieId}/reviews** <br />
-*Returns a list of review objects* <br /> 
+*Returns a list of review objects* <br />
 Get a list of review objects for a particular movie with the given Id<br />
 *E.g. /movie/28/reviews*
 
 ---
 
-
-
 ## Future Considerations
 
 + Create frontend
-+ Add features like recommend movie related with weather, recommend movie related with food/snacks
-+ Add functionality for users to have their own accounts
-+ Add ability for users to favourite movies/actors
-+ Add ability for users to make lists of movies to watch on specific dates
-+ Add ability for users to rate movies
-+ Add ability for users to review movies
-+ Additional api usage for TV Programmes
++ Create accounts
++ Users can create a list of movies to watch
++ Create list of users
++ Each user can have a list with favourite movies/actors
++ Review Movies
++ Suggest movie considering the weather
++ User can share list of own favourite movies
++ Tell platform (netflix, amazon, HBO, …) where you can watch that movie
++ Rate Movies
++ Deploy API into a cloud service (AWS, GCP, Azure)
++ API usage for TV programmes
++ Add Database
++ User can give suggestions for API improvement
++ Each movie has a recommendation of food/drinks (from food API) and order from delivery apps (UberEats, Deliveroo)
++ User can have a list of movies to watch in a day selected by user or random criteria
